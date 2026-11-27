@@ -1,6 +1,7 @@
 import { Analytics } from "@vercel/analytics/next";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
+import WhatsAppWidget from "@/components/layout/WhatsAppWidget";
 import { CartProvider } from "@/context/CartContext";
 import type { Metadata } from "next";
 import { Inter, Permanent_Marker } from "next/font/google";
@@ -39,6 +40,10 @@ export default function RootLayout({
           <Header />
           <main className="flex-grow">{children}</main>
           <Footer />
+          <WhatsAppWidget
+            phoneNumber="25480865479"
+            defaultMessage="Hello NOIR Urban Wear! I need help with sizing or placing an order."
+          />
         </CartProvider>
         <Analytics />
       </body>
