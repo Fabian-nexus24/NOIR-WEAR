@@ -1,103 +1,80 @@
 "use client";
 
-import {
-  Facebook,
-  Instagram,
-  Twitter,
-} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+const shopLinks = [
+  { href: "/shop", label: "All Collections" },
+  { href: "/shop?category=Shoes", label: "Footwear & Shoes" },
+  { href: "/shop?category=T-Shirts", label: "T-Shirts & Graphics" },
+  { href: "/shop?category=Hoodies", label: "Hoodies & Fleece" },
+  { href: "/shop?category=Accessories", label: "Bags & Accessories" },
+];
+
 export default function Footer() {
   const pathname = usePathname();
-  if (pathname === "/admin" || pathname?.startsWith("/admin/")) {
-    return null;
-  }
-
-  const footerSections = [
-    {
-      title: "Shop Categories",
-      links: [
-        { href: "/shop", label: "All Collections" },
-        { href: "/shop?category=Shoes", label: "Footwear & Shoes" },
-        { href: "/shop?category=T-Shirts", label: "T-Shirts & Graphics" },
-        { href: "/shop?category=Hoodies", label: "Hoodies & Fleece" },
-        { href: "/shop?category=Accessories", label: "Bags & Accessories" },
-      ],
-    },
-    {
-      title: "Customer Service",
-      links: [
-        { href: "/contact", label: "Contact Us" },
-      ],
-    },
-  ];
-
-  const socialLinks = [
-    { href: "https://instagram.com", icon: Instagram, label: "Instagram" },
-    { href: "https://facebook.com", icon: Facebook, label: "Facebook" },
-    { href: "https://twitter.com", icon: Twitter, label: "Twitter" },
-  ];
+  if (pathname === "/admin" || pathname?.startsWith("/admin/")) return null;
 
   return (
-    <footer className="bg-background border-t border-border">
+    <footer className="border-t border-border bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-
-        {/* Links Grid */}
-        <div className="py-10 sm:py-12 grid grid-cols-2 md:grid-cols-3 gap-8">
-          {/* Brand info */}
-          <div className="col-span-2 md:col-span-1 space-y-3">
-            <Link
-              href="/"
-              className="text-xl font-black tracking-tight text-foreground"
-            >
-              <span className="block text-xl font-black tracking-[0.12em]">NOIR</span><span className="block -mt-1 text-[8px] tracking-[0.32em] font-semibold">URBAN WEAR</span>
+        <div className="grid grid-cols-2 gap-8 py-10 sm:py-12 md:grid-cols-4">
+          <div className="col-span-2 flex flex-col gap-3 md:col-span-1">
+            <Link href="/" className="text-xl font-black tracking-tight text-foreground">
+              <span className="block text-xl font-black tracking-[0.12em]">NOIR</span>
+              <span className="-mt-1 block text-[8px] font-semibold tracking-[0.32em]">URBAN WEAR</span>
             </Link>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Streetwear attitude meets everyday essentials. Discover versatile style from NOIR Urban Wear.
+            <p className="text-xs leading-relaxed text-muted-foreground">
+              Streetwear attitude meets everyday essentials. Find your next favourite at NOIR Urban Wear.
             </p>
           </div>
 
-          {/* Section columns */}
-          {footerSections.map((section) => (
-            <div key={section.title} className="space-y-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-foreground">
-                {section.title}
-              </h4>
-              <ul className="space-y-2">
-                {section.links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="text-xs text-muted-foreground hover:text-primary transition-colors"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+          <div className="flex flex-col gap-3">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-foreground">Shop Categories</h2>
+            <ul className="flex flex-col gap-2">
+              {shopLinks.map(({ href, label }) => (
+                <li key={label}>
+                  <Link href={href} className="text-xs text-muted-foreground transition-colors hover:text-primary">
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        {/* Bottom Bar */}
-        <div className="py-6 border-t border-border/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} NOIR Urban Wear. All rights reserved.</p>
-
-          <div className="flex items-center space-x-3">
-            {socialLinks.map(({ href, icon: Icon, label }) => (
+          <div className="flex flex-col gap-3">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-foreground">Visit Our Store</h2>
+            <address className="flex flex-col gap-2 text-xs not-italic leading-relaxed text-muted-foreground">
               <a
-                key={label}
-                href={href}
+                href="https://maps.google.com/?q=X36C%2B5WG%2C+Kenyatta+Hwy%2C+Thika"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 rounded-full hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
-                aria-label={label}
+                className="transition-colors hover:text-primary"
               >
-                <Icon className="h-4 w-4" />
+                X36C+5WG, Kenyatta Hwy, Thika
               </a>
-            ))}
+              <span>10:00 AM – 8:00 PM</span>
+            </address>
           </div>
+
+          <div className="flex flex-col gap-3">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-foreground">Get in Touch</h2>
+            <a
+              href="https://wa.me/25480865479"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-fit text-xs text-muted-foreground transition-colors hover:text-primary"
+            >
+              WhatsApp: +254 808 65479
+            </a>
+            <Link href="/contact" className="text-xs text-muted-foreground transition-colors hover:text-primary">
+              Contact NOIR
+            </Link>
+          </div>
+        </div>
+
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-border/60 py-6 text-xs text-muted-foreground sm:flex-row">
+          <p>© {new Date().getFullYear()} NOIR Urban Wear. All rights reserved.</p>
         </div>
       </div>
     </footer>

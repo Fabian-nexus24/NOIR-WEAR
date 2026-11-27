@@ -11,7 +11,7 @@ export default function EmptyCart() {
         <h1>Your bag is <em>waiting.</em></h1>
         <p className="noir-empty-copy">Find the pieces that feel like you. Explore everyday essentials and street-ready favourites from NOIR Urban Wear.</p>
         <Link href="/shop" className="noir-empty-cta">EXPLORE THE COLLECTION <ArrowRight size={15} /></Link>
-        <span className="noir-empty-footnote">SAMPLE COLLECTION · DEMONSTRATION STORE</span>
+        <span className="noir-empty-footnote">THIKA STORE · SAME-DAY DELIVERY</span>
       </div>
     </div>
   );
