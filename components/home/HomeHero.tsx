@@ -1,21 +1,8 @@
-import { ArrowRight, ArrowUpRight, ShieldCheck, Shirt, Truck } from "lucide-react";
+import { ArrowRight, ShieldCheck, Shirt, Truck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { formatKES } from "@/lib/utils";
-import { Product } from "@/types/product";
 
-interface HomeHeroProps {
-  products: Product[];
-}
-
-export default function HomeHero({ products }: HomeHeroProps) {
-  const apparel = products.find((product) => product.id === 8);
-  const sneakers = products.find((product) => product.id === 1);
-  const cap = products.find((product) => product.id === 17);
-  const featuredProducts = [apparel, sneakers, cap].filter(
-    (product): product is Product => Boolean(product),
-  );
-
+export default function HomeHero() {
   return (
     <section className="noir-hero" aria-labelledby="hero-title">
       <div className="noir-hero-copy-panel">
@@ -65,46 +52,25 @@ export default function HomeHero({ products }: HomeHeroProps) {
         </div>
       </div>
 
-      <div className="noir-hero-stage" role="group" aria-label="Featured NOIR collection">
+      <div className="noir-hero-stage" role="group" aria-label="NOIR Collection 001 editorial">
+        <Image
+          src="/images/noir-hero-editorial.png"
+          alt="A black hoodie, black-and-white high-top sneakers, and a black cap arranged on concrete plinths in a dark studio."
+          fill
+          priority
+          sizes="(max-width: 767px) 100vw, 62vw"
+          className="noir-hero-stage-image"
+        />
+        <div className="noir-hero-stage-shade" aria-hidden="true" />
         <span className="noir-hero-stage-wordmark" aria-hidden="true">
           NOIR
         </span>
         <div className="noir-hero-stage-label">
-          <span>THE NOIR EDIT</span>
+          <span>NOIR — COLLECTION 001</span>
           <span>THIKA · KENYA</span>
         </div>
-
-        {featuredProducts.map((product, index) => (
-          <Link
-            key={product.id}
-            href={`/product/${product.id}`}
-            className={`noir-hero-product noir-hero-product-${index + 1}`}
-            aria-label={`Shop ${product.name}`}
-          >
-            <div className="noir-hero-product-image">
-              <Image
-                src={product.image}
-                alt={product.name}
-                fill
-                unoptimized
-                sizes="(max-width: 767px) 45vw, (max-width: 1100px) 32vw, 400px"
-              />
-              <span className="noir-hero-product-open" aria-hidden="true">
-                <ArrowUpRight size={16} />
-              </span>
-            </div>
-            <span className="noir-hero-product-caption">
-              <span>
-                <small>{product.category} / NOIR ESSENTIALS</small>
-                <strong>{product.name}</strong>
-              </span>
-              <b>{formatKES(product.price).replace("KES", "KSh")}</b>
-            </span>
-          </Link>
-        ))}
-
         <div className="noir-hero-stage-index" aria-hidden="true">
-          01 <span>/</span> 03
+          01 <span>/</span> NOIR ESSENTIALS
         </div>
       </div>
     </section>

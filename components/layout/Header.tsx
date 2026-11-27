@@ -120,11 +120,19 @@ export default function Header() {
     return pathname.startsWith(path);
   };
 
-  const navItems = [
+  const defaultNavItems = [
     { href: "/", label: "Home" },
     { href: "/shop", label: "Shop" },
     { href: "/contact", label: "Contact" },
   ];
+  const homeNavItems = [
+    { href: "/", label: "Home" },
+    { href: "/shop", label: "Shop" },
+    { href: "/#collections", label: "Collections" },
+    { href: "/#about", label: "About" },
+    { href: "/contact", label: "Contact" },
+  ];
+  const navItems = pathname === "/" ? homeNavItems : defaultNavItems;
 
   return (
     <>
@@ -153,23 +161,24 @@ export default function Header() {
       )}
 
       <header
+        data-homepage={pathname === "/" ? "true" : undefined}
         className={`sticky top-0 z-40 transition-all duration-300 ${
           isScrolled
             ? "bg-background/95 backdrop-blur-xl border-b border-border shadow-xs"
             : "bg-background/85 backdrop-blur-md border-b border-border/60 shadow-none"
-        }`}
+        } ${pathname === "/" ? "noir-home-header" : ""}`}
       >
-        <div className="container mx-auto px-4 sm:px-6 py-3.5">
+        <div className="container mx-auto px-4 sm:px-6 py-3.5 noir-home-header-inner">
           <div className="flex items-center justify-between">
             {/* Logo & Navigation */}
-            <div className="flex items-center space-x-6 lg:space-x-10">
+            <div className="flex items-center space-x-6 lg:space-x-10 noir-header-brand-nav">
               {isAdminArea ? (
                 <span className="text-lg sm:text-xl font-bold tracking-tight text-foreground">
                   {isProductCreatePage ? "Add Product" : "Admin Dashboard"}
                 </span>
               ) : (
                 <Link
-                  className="text-xl sm:text-2xl font-black tracking-tight text-foreground hover:opacity-90 transition-opacity"
+                  className="text-xl sm:text-2xl font-black tracking-tight text-foreground hover:opacity-90 transition-opacity noir-header-brand"
                   href="/"
                   aria-label="NOIR Urban Wear Home"
                 >
@@ -203,7 +212,7 @@ export default function Header() {
 
             {/* Desktop Search */}
             {!isAdminArea && (
-              <div className="hidden lg:flex flex-1 max-w-md mx-8">
+              <div className="hidden lg:flex flex-1 max-w-md mx-8 noir-header-desktop-search">
                 <form onSubmit={handleSearchSubmit} className="relative w-full">
                   <input
                     type="search"
@@ -219,13 +228,15 @@ export default function Header() {
             )}
 
             {/* Right Side Actions */}
-            <div className="flex items-center space-x-2 sm:space-x-3">
+            <div className="flex items-center space-x-2 sm:space-x-3 noir-header-actions">
               {/* Mobile Search Toggle */}
               {!isAdminArea && (
                 <button
                   type="button"
                   onClick={() => setIsSearchOpen(!isSearchOpen)}
-                  className="lg:hidden p-2 rounded-full hover:bg-muted transition-colors text-foreground"
+                  className={`p-2 rounded-full hover:bg-muted transition-colors text-foreground ${
+                    pathname === "/" ? "noir-home-search-trigger" : "lg:hidden"
+                  }`}
                   aria-label="Toggle search"
                 >
                   <Search className="h-5 w-5" />
@@ -285,7 +296,13 @@ export default function Header() {
 
           {/* Expandable Mobile Search Bar */}
           {!isAdminArea && isSearchOpen && (
-            <div className="lg:hidden mt-3 pt-3 border-t border-border/60 animate-in slide-in-from-top duration-200">
+            <div
+              className={
+                pathname === "/"
+                  ? "noir-home-search-panel"
+                  : "lg:hidden mt-3 pt-3 border-t border-border/60 animate-in slide-in-from-top duration-200"
+              }
+            >
               <form onSubmit={handleSearchSubmit} className="relative">
                 <input
                   type="search"
