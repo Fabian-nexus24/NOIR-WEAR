@@ -12,8 +12,35 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import { Button } from "../ui/button";
+
+const ADMIN_SESSION_KEY = "bloom_admin_session";
+const ADMIN_SESSION_EVENT = "noir-admin-session-change";
+
+function subscribeToAdminSession(callback: () => void) {
+  window.addEventListener("storage", callback);
+  window.addEventListener(ADMIN_SESSION_EVENT, callback);
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener(ADMIN_SESSION_EVENT, callback);
+  };
+}
+
+function getAdminSessionSnapshot() {
+  try {
+    const session = window.localStorage.getItem(ADMIN_SESSION_KEY);
+    if (!session) return false;
+    JSON.parse(session);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function notifyAdminSessionChanged() {
+  window.dispatchEvent(new Event(ADMIN_SESSION_EVENT));
+}
 
 export default function Header() {
   const { cart } = useCart();
@@ -24,9 +51,12 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-  // Admin Portal state
   const [isAdminAuthOpen, setIsAdminAuthOpen] = useState(false);
-  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const isAdminLoggedIn = useSyncExternalStore(
+    subscribeToAdminSession,
+    getAdminSessionSnapshot,
+    () => false,
+  );
 
   const pathname = usePathname();
   const [prevPathname, setPrevPathname] = useState(pathname);
@@ -48,35 +78,22 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Check stored admin session
-  useEffect(() => {
-    try {
-      const session = localStorage.getItem("bloom_admin_session");
-      if (session) {
-        JSON.parse(session);
-        setIsAdminLoggedIn(true);
-      }
-    } catch {
-      // ignore
-    }
-  }, []);
-
   const handleAdminLogin = (email: string) => {
-    setIsAdminLoggedIn(true);
     try {
       localStorage.setItem(
-        "bloom_admin_session",
+        ADMIN_SESSION_KEY,
         JSON.stringify({ email, timestamp: Date.now() })
       );
+      notifyAdminSessionChanged();
     } catch {
       // ignore
     }
   };
 
   const handleAdminLogout = () => {
-    setIsAdminLoggedIn(false);
     try {
-      localStorage.removeItem("bloom_admin_session");
+      localStorage.removeItem(ADMIN_SESSION_KEY);
+      notifyAdminSessionChanged();
     } catch {
       // ignore
     }
@@ -234,31 +251,17 @@ export default function Header() {
                 </Link>
               )}
 
-              {/* Sign In (Admin Access) Button */}
-              {!isAdminArea && (
-                <div className="hidden sm:flex items-center">
-                  {isAdminLoggedIn ? (
-                    <Link href="/admin">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="text-xs h-8 border-primary/40 text-primary hover:bg-primary/10 gap-1.5 font-medium"
-                      >
-                        <Plus className="h-3.5 w-3.5" />
-                        <span>Dashboard</span>
-                      </Button>
-                    </Link>
-                  ) : (
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => setIsAdminAuthOpen(true)}
-                      className="text-xs h-8 text-muted-foreground hover:text-foreground font-medium"
-                    >
-                      <span>Sign In</span>
-                    </Button>
-                  )}
-                </div>
+              {!isAdminArea && isAdminLoggedIn && (
+                <Link href="/admin" className="hidden sm:flex">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-xs h-8 border-primary/40 text-primary hover:bg-primary/10 gap-1.5 font-medium"
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                    <span>Dashboard</span>
+                  </Button>
+                </Link>
               )}
 
               {/* Mobile Menu Hamburger (also shown on desktop in New Product mode) */}
@@ -348,19 +351,7 @@ export default function Header() {
                       Logout
                     </Button>
                   </>
-                ) : (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => {
-                      closeMobileMenu();
-                      setIsAdminAuthOpen(true);
-                    }}
-                    className="w-full text-xs"
-                  >
-                    <span>Sign In</span>
-                  </Button>
-                )}
+                ) : null}
               </div>
             </nav>
           )}

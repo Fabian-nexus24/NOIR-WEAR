@@ -1,410 +1,85 @@
-"use client";
+import { ArrowUpRight, Clock3, MapPin, MessageCircle } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  CheckCircle,
-  Clock,
-  Headphones,
-  Mail,
-  MapPin,
-  MessageSquare,
-  Phone,
-  Send,
-  Shield,
-} from "lucide-react";
-import { useState } from "react";
+const storeAddress = "X36C+5WG, Kenyatta Hwy, Thika";
+const whatsappUrl = "https://wa.me/25480865479";
 
-export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+const contactDetails = [
+  {
+    icon: MessageCircle,
+    title: "WhatsApp",
+    content: "+254 808 65479",
+    href: whatsappUrl,
+    detail: "Message us about orders, sizing, and availability.",
+  },
+  {
+    icon: MapPin,
+    title: "Visit the store",
+    content: storeAddress,
+    href: "https://maps.google.com/?q=X36C%2B5WG%2C+Kenyatta+Hwy%2C+Thika",
+    detail: "Find NOIR Urban Wear on Kenyatta Highway.",
+  },
+  {
+    icon: Clock3,
+    title: "Store hours",
+    content: "10:00 AM – 8:00 PM",
+    detail: "Visit us daily during store hours.",
+  },
+];
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({ name: "", email: "", subject: "", message: "" });
-    }, 3000);
-  };
-
-  const contactInfo = [
-    {
-      icon: MessageSquare,
-      title: "WhatsApp Chat",
-      details: ["Official WhatsApp contact to be added"],
-      description: "Client contact details will be connected before launch",
-    },
-    {
-      icon: Mail,
-      title: "Email Us",
-      details: ["Official email address to be added"],
-      description: "Client email details will be added before launch",
-    },
-    {
-      icon: Phone,
-      title: "Call Us",
-      details: ["Business phone number to be added"],
-      description: "Client contact details will be added before launch",
-    },
-    {
-      icon: MapPin,
-      title: "Visit Us",
-      details: ["Store location to be confirmed", "Kenya"],
-      description: "The client will provide the official store location",
-    },
-    {
-      icon: Clock,
-      title: "Working Hours",
-      details: ["Business hours to be confirmed"],
-      description: "Operating hours will be updated before launch",
-    },
-  ];
-
-  const features = [
-    {
-      icon: Headphones,
-      title: "Customer Support",
-      description: "Official support channels will be added before launch",
-    },
-    {
-      icon: MessageSquare,
-      title: "Direct Communication",
-      description: "Contact options will be configured for the store",
-    },
-    {
-      icon: Shield,
-      title: "Customer Experience",
-      description: "A clear and straightforward way to reach the store",
-    },
-  ];
-
+export default function ContactPage() {
   return (
-    <div className="bg-background">
-      <section className="py-16 lg:py-24 bg-gradient-to-br from-primary/5 to-accent/5">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto">
-            <Badge className="mb-6 bg-primary text-primary-foreground">
-              Get in Touch
-            </Badge>
-            <h1 className="text-4xl lg:text-6xl font-bold text-foreground mb-6">
-              We&apos;d love to{" "}
-              <span className="text-primary block lg:inline lg:ml-4">
-                hear from you
+    <main className="bg-background text-foreground">
+      <section className="border-b border-border bg-muted/30 px-4 py-16 sm:px-6 lg:py-24">
+        <div className="mx-auto max-w-5xl">
+          <p className="mb-5 text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">
+            NOIR URBAN WEAR · THIKA
+          </p>
+          <h1 className="max-w-3xl text-4xl font-black tracking-[-0.06em] sm:text-5xl lg:text-7xl">
+            Good style starts with a conversation.
+          </h1>
+          <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            Need help choosing a piece or placing an order? Message our team on WhatsApp or visit us in Thika.
+          </p>
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-8 inline-flex min-h-12 items-center gap-3 bg-foreground px-5 text-sm font-semibold text-background transition-opacity hover:opacity-80"
+          >
+            <MessageCircle aria-hidden="true" size={18} />
+            Chat on WhatsApp
+            <ArrowUpRight aria-hidden="true" size={16} />
+          </a>
+        </div>
+      </section>
+
+      <section className="px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
+        <div className="mx-auto grid max-w-5xl gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+          {contactDetails.map(({ icon: Icon, title, content, href, detail }) => (
+            <article key={title} className="flex min-h-56 flex-col items-start bg-background p-6 sm:p-8">
+              <span className="mb-8 inline-flex size-10 items-center justify-center bg-muted">
+                <Icon aria-hidden="true" size={19} />
               </span>
-            </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Have a question, suggestion, or just want to say hello? We&apos;re
-              here to help and would love to hear from you.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 lg:py-24">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-3 gap-12">
-            <div className="lg:col-span-2">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-2xl font-bold text-foreground">
-                    Send us a message
-                  </CardTitle>
-                  <p className="text-muted-foreground">
-                    Fill out the form below and we&apos;ll get back to you as
-                    soon as possible.
-                  </p>
-                  <div
-                    role="note"
-                    className="mt-3 rounded-md border border-amber-900/15 bg-[#eee6d5] px-3.5 py-2.5 text-xs text-[#66583f]"
-                  >
-                    <strong className="font-semibold text-[#51452f]">
-                      Demonstration notice:
-                    </strong>{" "}
-                    This contact form is a preview only and does not send real
-                    emails. Live messaging will be connected before launch.
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid sm:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <label
-                          htmlFor="name"
-                          className="text-sm font-medium text-foreground"
-                        >
-                          Your Name
-                        </label>
-                        <Input
-                          id="name"
-                          name="name"
-                          type="text"
-                          placeholder="John Doe"
-                          value={formData.name}
-                          onChange={handleInputChange}
-                          required
-                          className="bg-background border-border"
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <label
-                          htmlFor="email"
-                          className="text-sm font-medium text-foreground"
-                        >
-                          Your Email
-                        </label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          placeholder="john@example.com"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          required
-                          className="bg-background border-border"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <label
-                        htmlFor="subject"
-                        className="text-sm font-medium text-foreground"
-                      >
-                        Subject
-                      </label>
-                      <Input
-                        id="subject"
-                        name="subject"
-                        type="text"
-                        placeholder="How can we help you?"
-                        value={formData.subject}
-                        onChange={handleInputChange}
-                        required
-                        className="bg-background border-border"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <label
-                        htmlFor="message"
-                        className="text-sm font-medium text-foreground"
-                      >
-                        Your Message
-                      </label>
-                      <Textarea
-                        id="message"
-                        name="message"
-                        placeholder="Tell us more about your question or concern..."
-                        rows={6}
-                        value={formData.message}
-                        onChange={handleInputChange}
-                        required
-                        className="bg-background border-border resize-none"
-                      />
-                    </div>
-
-                    <Button
-                      type="submit"
-                      size="lg"
-                      disabled={isSubmitting || isSubmitted}
-                      className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90"
-                    >
-                      {isSubmitting ? (
-                        <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                          Sending...
-                        </div>
-                      ) : isSubmitted ? (
-                        <div className="flex items-center gap-2">
-                          <CheckCircle className="h-4 w-4" />
-                          Message Sent!
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-2">
-                          <Send className="h-4 w-4" />
-                          Send Message
-                        </div>
-                      )}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </div>
-
-            <div className="space-y-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xl font-semibold">
-                    Contact Information
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  {contactInfo.map((info, index) => (
-                    <div key={index} className="flex items-start gap-4">
-                      <div className="p-2 bg-primary/10 rounded-lg">
-                        <info.icon className="h-5 w-5 text-primary" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-foreground mb-1">
-                          {info.title}
-                        </h3>
-                        {info.details.map((detail, idx) => (
-                          <p
-                            key={idx}
-                            className="text-sm text-muted-foreground"
-                          >
-                            {detail}
-                          </p>
-                        ))}
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {info.description}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xl font-semibold">
-                    Why Contact Us?
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {features.map((feature, index) => (
-                    <div key={index}>
-                      <div className="flex items-start gap-3">
-                        <div className="p-1 bg-accent/10 rounded">
-                          <feature.icon className="h-4 w-4 text-accent-foreground" />
-                        </div>
-                        <div>
-                          <h4 className="font-medium text-foreground text-sm">
-                            {feature.title}
-                          </h4>
-                          <p className="text-xs text-muted-foreground">
-                            {feature.description}
-                          </p>
-                        </div>
-                      </div>
-                      {index < features.length - 1 && (
-                        <Separator className="mt-4" />
-                      )}
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 lg:py-24 bg-muted/30">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-6">
-              FAQ
-            </Badge>
-            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Find quick answers to common questions about our products and
-              services.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {[
-              {
-                question: "How does delivery work in Kenya?",
-                answer:
-                  "NOIR Urban Wear is configured for deliveries within Kenya. Final delivery zones, fees, and timelines will be confirmed by the business before launch.",
-              },
-              {
-                question: "How will I track my order?",
-                answer:
-                  "Order confirmation and tracking updates will be configured once the live store backend and customer notifications are connected.",
-              },
-              {
-                question: "What is your return or exchange policy?",
-                answer:
-                  "Return and exchange terms are being finalised with the NOIR team and will be published here before the store goes live.",
-              },
-              {
-                question: "Which payment methods are supported?",
-                answer:
-                  "The checkout currently previews M-PESA and pay-on-delivery options. Live payment processing will be connected before launch.",
-              },
-            ].map((faq, index) => (
-              <Card key={index} className="hover:shadow-md transition-shadow">
-                <CardContent className="p-6">
-                  <h3 className="font-semibold text-foreground mb-3">
-                    {faq.question}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">{faq.answer}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 lg:py-24">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <Card className="bg-gradient-to-r from-primary/10 to-accent/10 border-primary/20">
-            <CardContent className="p-12 text-center">
-              <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
-                Still have questions?
+              <h2 className="text-xs font-bold uppercase tracking-[0.16em] text-muted-foreground">
+                {title}
               </h2>
-              <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Can&apos;t find what you&apos;re looking for? Our customer
-                support team is here to help.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button
-                  size="lg"
-                  className="bg-primary text-primary-foreground hover:bg-primary/90"
+              {href ? (
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 text-lg font-semibold leading-snug underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground"
                 >
-                  <Phone className="h-4 w-4 mr-2" />
-                  Call Us Now
-                </Button>
-
-                <Button size="lg" variant="outline">
-                  <Mail className="h-4 w-4 mr-2" />
-                  Live Chat
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+                  {content}
+                </a>
+              ) : (
+                <p className="mt-3 text-lg font-semibold leading-snug">{content}</p>
+              )}
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{detail}</p>
+            </article>
+          ))}
         </div>
       </section>
-    </div>
+    </main>
   );
 }

@@ -14,7 +14,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "NOIR Urban Wear — Streetwear & Everyday Style",
   description:
-    "Discover NOIR Urban Wear: a blend of streetwear and casual fashion for men and women in Kenya.",
+    "Shop streetwear and everyday essentials from NOIR Urban Wear in Thika. Visit X36C+5WG, Kenyatta Hwy, Thika, or order via WhatsApp with same-day delivery.",
 };
 
 export default function RootLayout({
@@ -28,10 +28,8 @@ export default function RootLayout({
         className={`${inter.className} antialiased flex flex-col min-h-screen bg-background text-foreground selection:bg-primary/20 selection:text-primary`}
       >
         <CartProvider>
-          <div className="noir-demo-bar" role="note" aria-label="Demonstration store notice">
-            <span>NOIR URBAN WEAR</span>
-            <span>DEMONSTRATION STORE · SAMPLE PRODUCTS</span>
-            <span>KENYA</span>
+          <div className="noir-demo-bar" role="note" aria-label="Store location and delivery information">
+            <span>NOIR URBAN WEAR · X36C+5WG, KENYATTA HWY, THIKA · SAME-DAY DELIVERY</span>
           </div>
           <Header />
           <main className="flex-grow">{children}</main>
