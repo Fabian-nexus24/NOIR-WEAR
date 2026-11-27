@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { useCart, type CartItem } from "@/context/CartContext";
 import { formatKES } from "@/lib/utils";
+import { buildWhatsAppCheckoutUrl } from "@/lib/whatsapp-checkout";
 
 type PaymentMethod = "mpesa" | "pay-on-delivery";
 type CompletedOrder = {
@@ -71,6 +72,7 @@ export default function CheckoutPage() {
     () => cart.reduce((sum, item) => sum + item.quantity, 0),
     [cart],
   );
+  const whatsappCheckoutUrl = buildWhatsAppCheckoutUrl(cart);
 
   const handlePlaceOrder = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -233,16 +235,17 @@ export default function CheckoutPage() {
               </div>
               <div className="noir-checkout-totals">
                 <div><span>Items subtotal</span><strong>{formatKES(subtotal)}</strong></div>
-                <div><span>Delivery</span><strong className="pending-delivery">To be confirmed</strong></div>
+                <div><span>Delivery</span><strong className="pending-delivery">Calculated / Confirmed on Order</strong></div>
                 <div className="noir-checkout-total"><span>ITEMS TOTAL</span><strong>{formatKES(subtotal)}</strong></div>
                 <p>Delivery charges and the final payable amount will be confirmed by the store. This preview does not process a payment.</p>
               </div>
               <button type="submit" form="noir-checkout-form" disabled={isSubmitting} className="noir-checkout-primary noir-checkout-submit">{isSubmitting ? "PREPARING PREVIEW…" : "COMPLETE DEMO CHECKOUT"}<ArrowRight size={15} /></button>
+              <a href={whatsappCheckoutUrl} target="_blank" rel="noopener noreferrer" className="noir-whatsapp-checkout-button"><MessageCircle aria-hidden="true" size={17} /> Order via WhatsApp</a>
               <div className="noir-checkout-trust"><LockKeyhole size={13} /><span>YOUR DETAILS ARE FOR THIS LOCAL DEMO ONLY</span></div>
-              <div className="noir-checkout-delivery-note"><MapPin size={16} /><div><strong>DELIVERING ACROSS KENYA</strong><span>County, town and local delivery details are captured for the client preview.</span></div></div>
+              <div className="noir-checkout-delivery-note"><MapPin size={16} /><div><strong>THIKA PICKUP &amp; DELIVERY</strong><span>Pickup at X36C+5WG, Kenyatta Hwy, Thika · 10:00 AM – 8:00 PM. Delivery confirmed on order.</span></div></div>
             </div>
             <Link href="/cart" className="noir-checkout-edit-bag"><ArrowLeft size={13} /> RETURN TO YOUR BAG</Link>
-            <div className="noir-checkout-help"><MessageCircle size={15} /><span>Need help? Store contact and WhatsApp details will be added before launch.</span></div>
+            <div className="noir-checkout-help"><MessageCircle size={15} /><span>Questions about sizing, pickup, delivery or M-Pesa? Message us on WhatsApp.</span></div>
           </aside>
         </div>
         <div className="noir-checkout-footerline"><span>NOIR URBAN WEAR</span><span>OWN YOUR EVERYDAY.</span><span><CreditCard size={12} /> PAYMENT PREVIEW</span></div>
