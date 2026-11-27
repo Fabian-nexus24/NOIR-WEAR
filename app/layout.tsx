@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import { CartProvider } from "@/context/CartContext";
@@ -35,6 +36,7 @@ export default function RootLayout({
           <main className="flex-grow">{children}</main>
           <Footer />
         </CartProvider>
+        <Analytics />
       </body>
     </html>
   );
