@@ -49,7 +49,7 @@ export default function Cart() {
             <div className="noir-cart-assurance">
               <span><LockKeyhole size={14} /> THIKA PICKUP &amp; DELIVERY</span>
               <p>Confirm sizing, pickup at {SITE_CONFIG.pickupAddress}, or delivery &amp; M-Pesa details.</p>
-              <a href={SITE_CONFIG.storeDirectionsUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex w-fit text-sm font-semibold underline underline-offset-4 hover:text-neutral-600">
+              <a href={SITE_CONFIG.storeDirectionsUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex w-fit text-sm font-semibold tracking-[0.02em] text-[#80520e] underline decoration-[#80520e] underline-offset-4 transition-colors hover:text-[#5c3c0b] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#80520e]">
                 Get directions
               </a>
             </div>

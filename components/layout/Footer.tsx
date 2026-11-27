@@ -58,7 +58,7 @@ export default function Footer() {
                 href={SITE_CONFIG.storeDirectionsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-fit font-semibold underline underline-offset-4 transition-colors hover:text-primary"
+                className="w-fit text-sm font-semibold tracking-[0.02em] text-[#80520e] underline decoration-[#80520e] underline-offset-4 transition-colors hover:text-[#5c3c0b] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#80520e]"
               >
                 Get directions
               </a>
