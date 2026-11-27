@@ -200,22 +200,53 @@ body {
 .noir-home { background: #f6f4ef; color: #171717; overflow: hidden; }
 .section-shell { width: min(1440px, calc(100% - 64px)); margin-inline: auto; }
 .noir-demo-bar { min-height: 30px; padding: 7px 16px; display: flex; align-items: center; justify-content: center; gap: 12px; background: #171717; color: #f6f4ef; font-size: 9px; line-height: 1.4; font-weight: 600; letter-spacing: .12em; text-align: center; }
-.noir-hero { min-height: 38vh; min-height: 38svh; max-height: 360px; position: relative; display: flex; align-items: center; background: #262626; color: white; isolation: isolate; }
-.noir-hero::after { content: ""; position: absolute; inset: 18px; border: 1px solid rgba(255,255,255,.18); pointer-events: none; }
-.noir-hero-image { position: absolute; inset: 0; z-index: -2; background-image: url('https://images.unsplash.com/photo-1756276900419-868625adff43?auto=format&fit=crop&w=2200&q=90'); background-size: cover; background-position: center 20%; }
-.noir-hero-shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,.45) 48%, rgba(0,0,0,.85) 100%); }
-.noir-hero-content { position: relative; z-index: 1; width: min(1440px, calc(100% - 64px)); margin: 0 auto; padding: 32px 0; }
+.noir-hero { display: grid; grid-template-columns: minmax(0, .94fr) minmax(0, 1.06fr); min-height: clamp(660px, calc(100svh - 108px), 790px); background: #f4f2ed; color: #111; overflow: hidden; }
+.noir-hero-copy-panel { display: flex; flex-direction: column; justify-content: space-between; padding: clamp(46px, 6.2vw, 88px) clamp(26px, 3.4vw, 58px) 34px clamp(34px, 4.8vw, 82px); }
+.noir-hero-copy-inner { max-width: 690px; margin-block: 0; }
+.noir-hero-kicker { display: flex; align-items: center; gap: 18px; margin: 0 0 30px; font-size: 11px; line-height: 1.4; font-weight: 800; letter-spacing: .2em; }
+.noir-hero-kicker span { display: block; width: clamp(44px, 5vw, 80px); height: 1px; background: currentColor; }
+.noir-hero-copy-inner h1 { margin: 0; font-size: clamp(44px, 4.5vw, 72px); line-height: .88; letter-spacing: -.055em; font-weight: 950; white-space: nowrap; }
+.noir-hero-copy-inner h1 .noir-hero-title-first { display: block; font-family: inherit; font-size: 1em; font-style: normal; font-weight: 950; letter-spacing: -.055em; word-spacing: .12em; }
+.noir-hero-copy-inner h1 .noir-hero-title-limit { position: relative; display: block; width: max-content; max-width: 100%; margin-top: 3px; font-family: Georgia, "Times New Roman", serif; font-size: 1.13em; font-style: italic; font-weight: 900; letter-spacing: -.105em; transform: skewX(-7deg) translateX(-5px); }
+.noir-hero-copy-inner h1 .noir-hero-title-limit::after { position: absolute; right: 5%; bottom: -.13em; left: 7%; height: .13em; border-bottom: .075em solid #111; border-radius: 55% 60% 0 0; content: ""; transform: rotate(-2deg); }
+.noir-hero-copy { margin: 34px 0 32px; color: #2c2b29; font-size: 17px; line-height: 1.55; }
+.noir-hero-actions { display: flex; align-items: center; gap: 28px; }
+.noir-hero-shop-button { display: inline-flex; min-height: 58px; align-items: center; justify-content: center; gap: 26px; padding: 0 23px; background: #090909; color: #fff; font-size: 11px; font-weight: 800; letter-spacing: .18em; transition: background .2s ease, transform .2s ease; }
+.noir-hero-shop-button:hover { background: #333; transform: translateY(-2px); }
+.noir-hero-action-note { min-height: 44px; display: inline-flex; align-items: center; padding-left: 27px; border-left: 1px solid #171717; font-size: 10px; font-weight: 800; letter-spacing: .19em; }
+.noir-hero-benefits { display: flex; align-items: center; gap: 0; padding-top: 22px; border-top: 1px solid rgba(17,17,17,.2); }
+.noir-hero-benefit { display: flex; align-items: center; gap: 11px; padding: 0 17px; border-right: 1px solid rgba(17,17,17,.4); }
+.noir-hero-benefit:first-child { padding-left: 0; }
+.noir-hero-benefit:last-child { padding-right: 0; border-right: 0; }
+.noir-hero-benefit span { display: flex; flex-direction: column; gap: 3px; white-space: nowrap; }
+.noir-hero-benefit strong { font-size: 11px; line-height: 1.15; }
+.noir-hero-benefit small { color: #55524d; font-size: 10px; line-height: 1.2; }
+.noir-hero-stage { position: relative; min-height: 100%; overflow: hidden; isolation: isolate; background: radial-gradient(ellipse at 45% 35%, rgba(125,119,108,.42), transparent 52%), linear-gradient(140deg, #272624 0%, #111 68%); color: #f4f2ed; }
+.noir-hero-stage::before { position: absolute; z-index: -1; top: 34%; left: -12%; width: 130%; height: 1px; background: rgba(255,255,255,.17); content: ""; transform: rotate(-35deg); }
+.noir-hero-stage::after { position: absolute; z-index: -1; right: -13%; bottom: 10%; width: 80%; height: 30%; border-top: 1px solid rgba(255,255,255,.14); content: ""; transform: rotate(-10deg); }
+.noir-hero-stage-wordmark { position: absolute; top: 22%; left: 1%; color: rgba(255,255,255,.09); font-size: clamp(150px, 20vw, 330px); font-weight: 950; letter-spacing: -.12em; line-height: .8; }
+.noir-hero-stage-label { position: absolute; top: 28px; right: 30px; left: 30px; display: flex; justify-content: space-between; color: rgba(255,255,255,.78); font-size: 9px; font-weight: 700; letter-spacing: .18em; }
+.noir-hero-product { position: absolute; display: block; overflow: hidden; background: #f5f3ed; color: #151515; box-shadow: 0 18px 50px rgba(0,0,0,.36); transition: transform .35s ease, box-shadow .35s ease; }
+.noir-hero-product:hover { z-index: 4; box-shadow: 0 22px 60px rgba(0,0,0,.48); transform: translateY(-5px); }
+.noir-hero-product-1 { top: 11%; right: 11%; z-index: 1; width: 56%; height: 64%; }
+.noir-hero-product-2 { bottom: 9%; left: 5%; z-index: 3; width: 49%; height: 34%; }
+.noir-hero-product-3 { right: 5%; bottom: 9%; z-index: 3; width: 34%; height: 29%; }
+.noir-hero-product-image { position: relative; width: 100%; height: calc(100% - 58px); overflow: hidden; background: #ddd9d1; }
+.noir-hero-product-image img { object-fit: cover; transition: transform .5s ease; }
+.noir-hero-product:hover .noir-hero-product-image img { transform: scale(1.035); }
+.noir-hero-product-open { position: absolute; top: 12px; right: 12px; display: grid; width: 30px; height: 30px; place-items: center; background: rgba(246,244,239,.92); color: #111; }
+.noir-hero-product-caption { display: flex; height: 58px; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; }
+.noir-hero-product-caption > span { display: flex; min-width: 0; flex-direction: column; gap: 4px; }
+.noir-hero-product-caption small { overflow: hidden; color: #716e68; font-size: 7px; font-weight: 700; letter-spacing: .11em; text-overflow: ellipsis; white-space: nowrap; }
+.noir-hero-product-caption strong { overflow: hidden; font-size: 10px; line-height: 1.2; text-overflow: ellipsis; white-space: nowrap; }
+.noir-hero-product-caption b { flex: 0 0 auto; font-size: 9px; white-space: nowrap; }
+.noir-hero-stage-index { position: absolute; right: 28px; bottom: 22px; z-index: 4; color: rgba(255,255,255,.86); font-size: 10px; font-weight: 800; letter-spacing: .18em; }
+.noir-hero-stage-index span { padding-inline: 4px; color: rgba(255,255,255,.5); }
 .noir-eyebrow { margin: 0 0 18px; font-size: 10px; line-height: 1.4; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
-.noir-hero-content h1 { margin: 0; font-size: 30px; line-height: .91; letter-spacing: -.075em; font-weight: 900; }
-.noir-hero-content h1 span { color: #d4d0c8; }
-.noir-hero-copy { max-width: 390px; margin: 26px 0 30px; color: rgba(255,255,255,.82); font-size: 14px; line-height: 1.7; }
 .noir-button { min-height: 48px; padding: 0 20px; display: inline-flex; align-items: center; justify-content: center; gap: 22px; font-size: 10px; font-weight: 800; letter-spacing: .13em; transition: background .2s ease, color .2s ease, transform .2s ease; }
 .noir-button:hover { transform: translateY(-2px); }
 .noir-button-light { background: #f6f4ef; color: #171717; }
 .noir-button-light:hover { background: white; }
-.noir-hero-index, .noir-hero-scroll { position: absolute; z-index: 2; bottom: 28px; color: rgba(255,255,255,.8); font-size: 9px; font-weight: 700; letter-spacing: .16em; }
-.noir-hero-index { right: 32px; }
-.noir-hero-scroll { left: 32px; display: flex; align-items: center; gap: 8px; }
 .noir-category-filter-wrap { background: #eeece6; border-bottom: 1px solid #dedbd3; }
 .noir-category-filter { display: flex; gap: 8px; overflow-x: auto; padding-block: 12px; scrollbar-width: none; }
 .noir-category-filter::-webkit-scrollbar { display: none; }
@@ -263,16 +294,45 @@ body {
 .noir-service-strip strong { font-size: 10px; letter-spacing: .12em; }
 .noir-service-strip p { margin: 7px 0 0; color: #77736c; font-size: 11px; }
 
+@media (min-width: 769px) and (max-width: 1100px) {
+  .noir-hero { min-height: 680px; }
+  .noir-hero-copy-panel { padding: 44px 24px 26px 32px; }
+  .noir-hero-kicker { gap: 11px; margin-bottom: 24px; font-size: 9px; }
+  .noir-hero-copy-inner h1 { font-size: clamp(34px, 4.6vw, 50px); }
+  .noir-hero-copy { margin-block: 24px; font-size: 15px; }
+  .noir-hero-actions { gap: 14px; }
+  .noir-hero-shop-button { min-height: 52px; gap: 15px; padding-inline: 16px; font-size: 9px; }
+  .noir-hero-action-note { padding-left: 14px; font-size: 8px; letter-spacing: .12em; }
+  .noir-hero-benefits { flex-wrap: wrap; gap: 14px 0; }
+  .noir-hero-benefit { gap: 7px; padding-inline: 10px; }
+  .noir-hero-benefit svg { width: 23px; height: 23px; }
+  .noir-hero-benefit strong { font-size: 9px; }
+  .noir-hero-benefit small { font-size: 8px; }
+  .noir-hero-stage { min-height: 680px; }
+  .noir-hero-stage-label { right: 18px; left: 18px; font-size: 7px; }
+  .noir-hero-product-caption { padding-inline: 8px; }
+  .noir-hero-product-caption strong { font-size: 9px; }
+}
+
 @media (max-width: 768px) {
   .section-shell { width: calc(100% - 36px); }
   .noir-demo-bar { padding-inline: 12px; font-size: 8px; letter-spacing: .08em; }
-  .noir-hero::after { inset: 10px; }
-  .noir-hero-image { background-position: center 20%; }
-  .noir-hero-content { width: calc(100% - 40px); padding-block: 32px; }
-  .noir-hero-content h1 { font-size: 36px; }
-  .noir-hero-copy { max-width: 290px; font-size: 13px; }
-  .noir-hero-index { right: 20px; bottom: 18px; }
-  .noir-hero-scroll { left: 20px; }
+  .noir-hero { grid-template-columns: minmax(0, .94fr) minmax(0, 1.06fr); min-height: 620px; }
+  .noir-hero-copy-panel { padding: 42px 22px 24px 28px; }
+  .noir-hero-kicker { gap: 10px; margin-bottom: 24px; font-size: 9px; }
+  .noir-hero-copy-inner h1 { font-size: clamp(38px, 5.2vw, 54px); }
+  .noir-hero-copy { margin-block: 24px; font-size: 14px; }
+  .noir-hero-actions { gap: 14px; }
+  .noir-hero-shop-button { min-height: 50px; gap: 16px; padding-inline: 16px; font-size: 9px; }
+  .noir-hero-action-note { padding-left: 14px; font-size: 8px; letter-spacing: .12em; }
+  .noir-hero-benefit { gap: 7px; padding-inline: 9px; }
+  .noir-hero-benefit svg { width: 23px; height: 23px; }
+  .noir-hero-benefit strong { font-size: 9px; }
+  .noir-hero-benefit small { font-size: 8px; }
+  .noir-hero-stage { min-height: 620px; }
+  .noir-hero-stage-label { right: 18px; left: 18px; font-size: 7px; }
+  .noir-hero-product-caption { padding-inline: 8px; }
+  .noir-hero-product-caption strong { font-size: 9px; }
   .noir-category-filter { width: calc(100% - 36px); }
   .noir-category-filter-link { padding: 9px 13px; }
   .noir-intro { padding-block: 72px 65px; }
@@ -299,26 +359,41 @@ body {
   .noir-service-strip { grid-template-columns: 1fr; gap: 22px; padding-block: 40px 48px; }
 }
 
-@media (min-width: 640px) {
-  .noir-hero { min-height: 45vh; min-height: 45svh; max-height: 440px; }
-  .noir-hero-content { padding-block: 48px; }
-  .noir-hero-content h1 { font-size: 36px; }
-}
-
-@media (min-width: 1024px) {
-  .noir-hero { max-height: 520px; }
-  .noir-hero-content h1 { font-size: 60px; }
-}
-
 @media (max-width: 767px) {
+  .noir-hero { display: block; min-height: 0; }
+  .noir-hero-copy-panel { min-height: 460px; padding: 44px 22px 22px; }
+  .noir-hero-copy-inner { margin-block: 0; }
+  .noir-hero-kicker { gap: 12px; margin-bottom: 26px; font-size: 9px; }
+  .noir-hero-kicker span { width: 42px; }
+  .noir-hero-copy-inner h1 { font-size: clamp(30px, 9vw, 58px); }
+  .noir-hero-copy { margin: 24px 0; font-size: 14px; }
+  .noir-hero-actions { gap: 14px; }
+  .noir-hero-shop-button { min-height: 50px; gap: 14px; padding-inline: 16px; font-size: 9px; }
+  .noir-hero-action-note { min-height: 40px; padding-left: 13px; font-size: 8px; letter-spacing: .12em; }
+  .noir-hero-benefits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; padding-top: 16px; }
+  .noir-hero-benefit { align-items: flex-start; gap: 6px; padding-inline: 5px; }
+  .noir-hero-benefit:first-child { padding-left: 0; }
+  .noir-hero-benefit svg { width: 20px; height: 20px; flex: 0 0 auto; }
+  .noir-hero-benefit span { gap: 4px; white-space: normal; }
+  .noir-hero-benefit strong { font-size: 8px; }
+  .noir-hero-benefit small { font-size: 7px; }
+  .noir-hero-stage { min-height: clamp(360px, 92vw, 470px); }
+  .noir-hero-stage-label { top: 17px; right: 15px; left: 15px; font-size: 7px; }
+  .noir-hero-stage-wordmark { top: 26%; font-size: 28vw; }
+  .noir-hero-product-1 { top: 13%; right: 7%; width: 66%; height: 58%; }
+  .noir-hero-product-2 { bottom: 9%; left: 4%; width: 53%; height: 34%; }
+  .noir-hero-product-3 { right: 4%; bottom: 9%; width: 37%; height: 31%; }
+  .noir-hero-product-caption { height: 48px; padding: 6px; }
+  .noir-hero-product-image { height: calc(100% - 48px); }
+  .noir-hero-product-caption small { font-size: 6px; }
+  .noir-hero-product-caption strong { font-size: 8px; }
+  .noir-hero-product-caption b { font-size: 8px; }
+  .noir-hero-product-open { top: 7px; right: 7px; width: 24px; height: 24px; }
+  .noir-hero-stage-index { right: 13px; bottom: 13px; font-size: 8px; }
   .noir-featured-section .noir-product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 }
 
 @media (max-width: 639px) {
-  .noir-hero-content { padding-block: 32px; }
-  .noir-hero-content h1 { font-size: 30px; }
-  .noir-hero-copy { max-width: 275px; margin: 14px 0 18px; font-size: 12px; line-height: 1.5; }
-  .noir-hero-scroll { display: none; }
   .noir-button { min-height: 44px; padding-inline: 15px; font-size: 9px; }
 }
 

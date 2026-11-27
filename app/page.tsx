@@ -1,3 +1,4 @@
+import HomeHero from "@/components/home/HomeHero";
 import ProductCard from "@/components/home/ProductCard";
 import rawProducts from "@/data/products.json";
 import { Product } from "@/types/product";
@@ -43,32 +44,7 @@ export default async function Home({
 
   return (
     <div className="noir-home">
-      <section className="noir-hero" aria-labelledby="hero-title">
-        <div
-          className="noir-hero-image"
-          role="img"
-          aria-label="Streetwear fashion campaign featuring contemporary urban styling"
-        />
-        <div className="noir-hero-shade" />
-        <div className="noir-hero-content">
-          <p className="noir-eyebrow">NOIR URBAN WEAR · THE EVERYDAY EDIT</p>
-          <h1 id="hero-title">
-            STYLE WITHOUT
-            <br />
-            <span>BOUNDARIES.</span>
-          </h1>
-          <p className="noir-hero-copy">
-            Streetwear essentials for your everyday, your way.
-          </p>
-          <Link href="/shop" className="noir-button noir-button-light">
-            EXPLORE THE SHOP <ArrowRight size={16} />
-          </Link>
-        </div>
-        <div className="noir-hero-index">NOIR / 001</div>
-        <div className="noir-hero-scroll">
-          <ArrowDownRight size={15} /> SCROLL TO EXPLORE
-        </div>
-      </section>
+      <HomeHero products={products} />
 
       <section className="noir-category-filter-wrap" aria-label="Shop by category">
         <nav className="section-shell noir-category-filter">
