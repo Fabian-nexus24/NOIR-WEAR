@@ -152,7 +152,7 @@ export default function Header() {
             <div className="flex min-w-0 items-center gap-4 md:gap-6 lg:gap-10 noir-header-brand-nav">
               {isAdminArea ? (
                 <span className="text-lg sm:text-xl font-bold tracking-tight text-foreground">
-                  {isProductCreatePage ? "Add Product" : "Admin Dashboard"}
+                  {isProductCreatePage ? "Add Product" : "NOIR URBAN WEAR — ADMIN"}
                 </span>
               ) : (
                 <Link
@@ -189,6 +189,15 @@ export default function Header() {
 
             {/* Right Side Actions */}
             <div className="flex items-center gap-1 sm:gap-2 noir-header-actions">
+              {isAdminArea && (
+                <Link
+                  href="/"
+                  className="mr-2 whitespace-nowrap px-2 py-2 text-sm font-medium text-foreground transition-colors hover:text-foreground/70"
+                >
+                  View Storefront
+                </Link>
+              )}
+
               {/* Search Toggle */}
               {!isAdminArea && (
                 <button
@@ -263,8 +272,8 @@ export default function Header() {
                 type="button"
                 onClick={toggleMobileMenu}
                 className={`${
-                  isAdminArea ? "" : "md:hidden"
-                } inline-flex size-10 items-center justify-center rounded-full text-[#111111] transition-colors hover:bg-black/5`}
+                  isAdminArea ? (isProductCreatePage ? "inline-flex" : "hidden") : "inline-flex md:hidden"
+                } size-10 items-center justify-center rounded-full text-[#111111] transition-colors hover:bg-black/5`}
                 aria-label={isMobileOpen ? "Close navigation menu" : "Open navigation menu"}
                 aria-expanded={isMobileOpen}
                 aria-controls="mobile-navigation"

@@ -4,6 +4,7 @@ import ProductCard from "@/components/home/ProductCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import defaultProducts from "@/data/products.json";
+import { CATALOGUE_UPDATED_EVENT, readAdminProducts } from "@/lib/admin-dashboard-storage";
 import { formatKES } from "@/lib/utils";
 import { Product } from "@/types/product";
 import { ArrowDownUp, ArrowRight, Filter, RotateCcw, Search, SlidersHorizontal, X } from "lucide-react";
@@ -24,16 +25,19 @@ export default function ShopClient() {
 
   useEffect(() => {
     const loadData = () => {
+      setProducts(readAdminProducts());
       try {
-        const stored = localStorage.getItem("bloom_custom_products");
-        if (stored) setProducts([...JSON.parse(stored), ...(defaultProducts as Product[])]);
         const storedCats = localStorage.getItem("bloom_custom_categories");
         if (storedCats) setCategories(["All", ...Array.from(new Set([...BASE_CATEGORIES.slice(1), ...JSON.parse(storedCats)]))]);
-      } catch { /* Keep the sample catalogue available if browser storage is invalid. */ }
+      } catch { /* Keep the sample categories available if browser storage is invalid. */ }
     };
     loadData();
     window.addEventListener("storage", loadData);
-    return () => window.removeEventListener("storage", loadData);
+    window.addEventListener(CATALOGUE_UPDATED_EVENT, loadData);
+    return () => {
+      window.removeEventListener("storage", loadData);
+      window.removeEventListener(CATALOGUE_UPDATED_EVENT, loadData);
+    };
   }, []);
 
   const searchParamsKey = searchParams.toString();

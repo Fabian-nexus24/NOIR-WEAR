@@ -11,4 +11,6 @@ export interface Product {
   rating?: number;
   reviewsCount?: number;
   isSoldOut?: boolean;
+  sizes?: string[];
+  inStock?: boolean;
 }
