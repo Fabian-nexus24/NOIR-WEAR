@@ -22,6 +22,7 @@ import {
 import { useCart, type CartItem } from "@/context/CartContext";
 import { formatKES } from "@/lib/utils";
 import { buildWhatsAppCheckoutUrl } from "@/lib/whatsapp-checkout";
+import { SITE_CONFIG } from "@/lib/site-config";
 
 type PaymentMethod = "mpesa" | "pay-on-delivery";
 type CompletedOrder = {
@@ -242,7 +243,7 @@ export default function CheckoutPage() {
               <button type="submit" form="noir-checkout-form" disabled={isSubmitting} className="noir-checkout-primary noir-checkout-submit">{isSubmitting ? "PREPARING PREVIEW…" : "COMPLETE DEMO CHECKOUT"}<ArrowRight size={15} /></button>
               <a href={whatsappCheckoutUrl} target="_blank" rel="noopener noreferrer" className="noir-whatsapp-checkout-button"><MessageCircle aria-hidden="true" size={17} /> Order via WhatsApp</a>
               <div className="noir-checkout-trust"><LockKeyhole size={13} /><span>YOUR DETAILS ARE FOR THIS LOCAL DEMO ONLY</span></div>
-              <div className="noir-checkout-delivery-note"><MapPin size={16} /><div><strong>THIKA PICKUP &amp; DELIVERY</strong><span>Pickup at X36C+5WG, Kenyatta Hwy, Thika · 10:00 AM – 8:00 PM. Delivery confirmed on order.</span></div></div>
+              <div className="noir-checkout-delivery-note"><MapPin size={16} /><div><strong>THIKA PICKUP &amp; DELIVERY</strong><span>Pickup at {SITE_CONFIG.pickupAddress} · {SITE_CONFIG.storeHours}. Delivery confirmed on order.</span><a href={SITE_CONFIG.storeDirectionsUrl} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex w-fit text-sm font-semibold underline underline-offset-4">Get directions</a></div></div>
             </div>
             <Link href="/cart" className="noir-checkout-edit-bag"><ArrowLeft size={13} /> RETURN TO YOUR BAG</Link>
             <div className="noir-checkout-help"><MessageCircle size={15} /><span>Questions about sizing, pickup, delivery or M-Pesa? Message us on WhatsApp.</span></div>

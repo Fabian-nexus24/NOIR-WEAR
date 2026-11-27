@@ -1,6 +1,7 @@
 import { ArrowUpRight, Clock3, MapPin, MessageCircle } from "lucide-react";
+import { SITE_CONFIG } from "@/lib/site-config";
 
-const storeAddress = "X36C+5WG, Kenyatta Hwy, Thika";
+const storeAddress = SITE_CONFIG.pickupAddress;
 const whatsappUrl = "https://wa.me/254180865479";
 
 const contactDetails = [
@@ -15,8 +16,9 @@ const contactDetails = [
     icon: MapPin,
     title: "Visit the store",
     content: storeAddress,
-    href: "https://maps.google.com/?q=X36C%2B5WG%2C+Kenyatta+Hwy%2C+Thika",
+    href: SITE_CONFIG.storeDirectionsUrl,
     detail: "Find NOIR Urban Wear on Kenyatta Highway.",
+    actionLabel: "Get directions",
   },
   {
     icon: Clock3,
@@ -55,7 +57,7 @@ export default function ContactPage() {
 
       <section className="px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
         <div className="mx-auto grid max-w-5xl gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
-          {contactDetails.map(({ icon: Icon, title, content, href, detail }) => (
+          {contactDetails.map(({ icon: Icon, title, content, href, detail, actionLabel }) => (
             <article key={title} className="flex min-h-56 flex-col items-start bg-background p-6 sm:p-8">
               <span className="mb-8 inline-flex size-10 items-center justify-center bg-muted">
                 <Icon aria-hidden="true" size={19} />
@@ -76,6 +78,17 @@ export default function ContactPage() {
                 <p className="mt-3 text-lg font-semibold leading-snug">{content}</p>
               )}
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{detail}</p>
+              {actionLabel && href ? (
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-flex min-h-10 items-center gap-2 text-sm font-semibold underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground"
+                >
+                  {actionLabel}
+                  <ArrowUpRight aria-hidden="true" size={15} />
+                </a>
+              ) : null}
             </article>
           ))}
         </div>

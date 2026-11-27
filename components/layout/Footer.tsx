@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { SITE_CONFIG } from "@/lib/site-config";
 
 const shopLinks = [
   { href: "/shop", label: "All Collections" },
@@ -46,12 +47,20 @@ export default function Footer() {
             <h2 className="text-[13px] font-bold uppercase tracking-wider text-[#0A0A0A] sm:text-sm">Visit Our Store</h2>
             <address className="flex flex-col gap-2 text-sm not-italic leading-relaxed text-neutral-700 sm:text-[15px]">
               <a
-                href="https://maps.google.com/?q=X36C%2B5WG%2C+Kenyatta+Hwy%2C+Thika"
+                href={SITE_CONFIG.storeDirectionsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="transition-colors hover:text-primary"
               >
                 X36C+5WG, Kenyatta Hwy, Thika
+              </a>
+              <a
+                href={SITE_CONFIG.storeDirectionsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-fit font-semibold underline underline-offset-4 transition-colors hover:text-primary"
+              >
+                Get directions
               </a>
               <span>10:00 AM – 8:00 PM</span>
             </address>
