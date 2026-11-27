@@ -41,7 +41,7 @@ export default function RootLayout({
           <main className="flex-grow">{children}</main>
           <Footer />
           <WhatsAppWidget
-            phoneNumber="25480865479"
+            phoneNumber="254180865479"
             defaultMessage="Hello NOIR Urban Wear! I need help with sizing or placing an order."
           />
         </CartProvider>
