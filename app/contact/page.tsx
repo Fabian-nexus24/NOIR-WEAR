@@ -83,7 +83,7 @@ export default function ContactPage() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 inline-flex min-h-10 items-center gap-2 text-sm font-semibold underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground"
+                  className="mt-4 inline-flex min-h-10 items-center gap-2 text-sm font-semibold tracking-[0.02em] text-[#80520e] underline decoration-[#80520e] underline-offset-4 transition-colors hover:text-[#5c3c0b] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#80520e]"
                 >
                   {actionLabel}
                   <ArrowUpRight aria-hidden="true" size={15} />
