@@ -16,7 +16,10 @@ export function buildWhatsAppCheckoutUrl(cart: CartItem[]) {
         `Line subtotal: ${formatKES(item.price * item.quantity)}`,
       ].filter(Boolean);
 
-      return `${index + 1}. ${item.name}\n   ${attributes.join(" · ")}`;
+      const productUrl = new URL(`/product/${item.id}`, SITE_CONFIG.storefrontUrl).toString();
+      const imageUrl = new URL(item.image, SITE_CONFIG.storefrontUrl).toString();
+
+      return `${index + 1}. ${item.name}\n   Product: ${productUrl}\n   Image: ${imageUrl}\n   ${attributes.join(" · ")}`;
     })
     .join("\n\n");
   const message = [
