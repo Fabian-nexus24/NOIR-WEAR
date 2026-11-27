@@ -120,7 +120,7 @@ export default function Header() {
         className={
           isAdminArea
             ? "sticky top-0 z-40 w-full border-b border-border bg-background"
-            : "noir-site-header sticky top-0 z-50 w-full bg-[#F4F1EA] border-b border-black/10"
+            : "noir-site-header sticky top-0 z-50 w-full bg-white border-b border-neutral-200"
         }
       >
         {isAdminLoggedIn && !isAdminArea && (
@@ -161,7 +161,7 @@ export default function Header() {
                   aria-label="NOIR Urban Wear Home"
                 >
                   <span className="block text-2xl font-black leading-none tracking-[-0.04em] text-[#111111] transition-opacity group-hover:opacity-80 sm:text-3xl">NOIR</span>
-                  <span className="mt-0.5 block text-[9px] font-bold uppercase tracking-[0.28em] text-[#111111]/80 transition-opacity group-hover:opacity-80 sm:text-[10px]">URBAN WEAR</span>
+                  <span className="mt-0.5 block text-[10px] font-bold uppercase tracking-[0.28em] text-[#111111]/80 transition-opacity group-hover:opacity-80 sm:text-[11px]">URBAN WEAR</span>
                 </Link>
               )}
 
@@ -175,7 +175,7 @@ export default function Header() {
                     <Link
                       key={href}
                       href={href}
-                      className={`relative whitespace-nowrap px-1 py-2 text-xs font-medium text-[#111111] after:absolute after:inset-x-1 after:bottom-0 after:h-0.5 after:origin-left after:scale-x-0 after:bg-[#111111] after:transition-transform hover:after:scale-x-100 lg:text-sm ${
+                      className={`relative whitespace-nowrap px-1 py-2 text-[13px] font-medium text-[#111111] after:absolute after:inset-x-1 after:bottom-0 after:h-0.5 after:origin-left after:scale-x-0 after:bg-[#111111] after:transition-transform hover:after:scale-x-100 lg:text-sm ${
                         isActivePath(href) ? "font-semibold after:scale-x-100" : ""
                       }`}
                       aria-current={isActivePath(href) ? "page" : undefined}

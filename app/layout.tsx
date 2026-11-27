@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${permanentMarker.variable} antialiased flex flex-col min-h-screen bg-background text-foreground selection:bg-primary/20 selection:text-primary`}
+        className={`${inter.className} ${permanentMarker.variable} antialiased flex flex-col min-h-screen bg-white text-[#0A0A0A] text-[15px] leading-relaxed sm:text-base selection:bg-primary/20 selection:text-primary`}
       >
         <CartProvider>
           <Header />
