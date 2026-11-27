@@ -5,6 +5,7 @@ import EmptyCart from "@/components/cart/EmptyCart";
 import OrderSummary from "@/components/cart/OrderSummary";
 import Recommendations from "@/components/cart/Recommendations";
 import { useCart } from "@/context/CartContext";
+import { SITE_CONFIG } from "@/lib/site-config";
 import { ArrowLeft, ArrowRight, LockKeyhole, ShoppingBag } from "lucide-react";
 import Link from "next/link";
 
@@ -47,7 +48,10 @@ export default function Cart() {
             <OrderSummary />
             <div className="noir-cart-assurance">
               <span><LockKeyhole size={14} /> THIKA PICKUP &amp; DELIVERY</span>
-              <p>Confirm sizing, pickup at X36C+5WG, Kenyatta Hwy, Thika, or delivery &amp; M-Pesa details.</p>
+              <p>Confirm sizing, pickup at {SITE_CONFIG.pickupAddress}, or delivery &amp; M-Pesa details.</p>
+              <a href={SITE_CONFIG.storeDirectionsUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex w-fit text-sm font-semibold underline underline-offset-4 hover:text-neutral-600">
+                Get directions
+              </a>
             </div>
           </aside>
         </div>
