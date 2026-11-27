@@ -19,7 +19,7 @@ export default function Cart() {
       <div className="noir-cart-shell">
         <div className="noir-cart-breadcrumb">
           <Link href="/shop"><ArrowLeft size={14} /> Continue shopping</Link>
-          <span><LockKeyhole size={12} /> Secure demo checkout</span>
+          <span><LockKeyhole size={12} /> THIKA PICKUP &amp; DELIVERY</span>
         </div>
 
         <header className="noir-cart-heading">
@@ -46,8 +46,8 @@ export default function Cart() {
           <aside className="noir-cart-summary-column">
             <OrderSummary />
             <div className="noir-cart-assurance">
-              <span><LockKeyhole size={14} /> DEMONSTRATION CHECKOUT</span>
-              <p>Payment and delivery arrangements will be configured with the NOIR team before the store launches.</p>
+              <span><LockKeyhole size={14} /> THIKA PICKUP &amp; DELIVERY</span>
+              <p>Confirm sizing, pickup at X36C+5WG, Kenyatta Hwy, Thika, or delivery &amp; M-Pesa details.</p>
             </div>
           </aside>
         </div>

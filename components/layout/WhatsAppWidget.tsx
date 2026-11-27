@@ -37,7 +37,7 @@ export default function WhatsAppWidget({
   const [promptOverride, setPromptOverride] = useState<boolean | null>(null);
   const isPromptOpen = promptOverride ?? isDesktop;
 
-  if (!phoneNumber.trim() || pathname === "/admin" || pathname?.startsWith("/admin/")) {
+  if (!phoneNumber.trim() || pathname === "/admin" || pathname?.startsWith("/admin/") || pathname === "/cart" || pathname === "/checkout") {
     return null;
   }
 
