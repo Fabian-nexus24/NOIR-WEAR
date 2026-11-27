@@ -44,7 +44,7 @@ export default async function Home({
 
   return (
     <div className="noir-home">
-      <HomeHero products={products} />
+      <HomeHero />
 
       <section className="noir-category-filter-wrap" aria-label="Shop by category">
         <nav className="section-shell noir-category-filter">
@@ -93,7 +93,7 @@ export default async function Home({
         </div>
       </section>
 
-      <section className="noir-category-section section-shell">
+      <section className="noir-category-section section-shell" id="collections">
         <div className="noir-section-heading">
           <div>
             <p className="noir-eyebrow">FIND YOUR FIT</p>
@@ -128,7 +128,7 @@ export default async function Home({
         </div>
       </section>
 
-      <section className="noir-intro section-shell">
+      <section className="noir-intro section-shell" id="about">
         <p className="noir-eyebrow">MORE THAN WHAT YOU WEAR</p>
         <div className="noir-intro-row">
           <h2>
