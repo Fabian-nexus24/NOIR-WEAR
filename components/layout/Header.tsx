@@ -8,6 +8,7 @@ import {
   Plus,
   Search,
   ShoppingCart,
+  UserRound,
   X,
 } from "lucide-react";
 import Link from "next/link";
@@ -59,6 +60,7 @@ export default function Header() {
   );
 
   const pathname = usePathname();
+  const isHomepage = pathname === "/";
   const [prevPathname, setPrevPathname] = useState(pathname);
   if (pathname !== prevPathname) {
     setPrevPathname(pathname);
@@ -160,15 +162,29 @@ export default function Header() {
         </div>
       )}
 
+      {!isHomepage && (
+        <div className="noir-demo-bar" role="note" aria-label="Store location and delivery information">
+          <span>NOIR URBAN WEAR · X36C+5WG, KENYATTA HWY, THIKA · SAME-DAY DELIVERY</span>
+        </div>
+      )}
+
       <header
-        data-homepage={pathname === "/" ? "true" : undefined}
-        className={`sticky top-0 z-40 transition-all duration-300 ${
-          isScrolled
-            ? "bg-background/95 backdrop-blur-xl border-b border-border shadow-xs"
-            : "bg-background/85 backdrop-blur-md border-b border-border/60 shadow-none"
-        } ${pathname === "/" ? "noir-home-header" : ""}`}
+        data-homepage={isHomepage ? "true" : undefined}
+        className={
+          isHomepage
+            ? "noir-home-header absolute inset-x-0 top-0 z-30 h-20 bg-transparent"
+            : `sticky top-0 z-40 transition-all duration-300 ${
+                isScrolled
+                  ? "bg-background/95 backdrop-blur-xl border-b border-border shadow-xs"
+                  : "bg-background/85 backdrop-blur-md border-b border-border/60 shadow-none"
+              }`
+        }
       >
-        <div className="container mx-auto px-4 sm:px-6 py-3.5 noir-home-header-inner">
+        <div
+          className={`container mx-auto px-4 sm:px-6 noir-home-header-inner ${
+            isHomepage ? "h-full py-0" : "py-3.5"
+          }`}
+        >
           <div className="flex items-center justify-between">
             {/* Logo & Navigation */}
             <div className="flex items-center space-x-6 lg:space-x-10 noir-header-brand-nav">
@@ -182,7 +198,8 @@ export default function Header() {
                   href="/"
                   aria-label="NOIR Urban Wear Home"
                 >
-                  <span className="block text-xl sm:text-2xl font-black tracking-[0.12em]">NOIR<span className="text-xs align-top ml-1 tracking-[0.18em] font-semibold">®</span></span><span className="block -mt-1 text-[8px] sm:text-[9px] tracking-[0.32em] font-semibold">URBAN WEAR</span>
+                  <span className="block text-xl sm:text-2xl font-black tracking-[0.12em]">NOIR</span>
+                  <span className="block -mt-1 text-[8px] sm:text-[9px] tracking-[0.32em] font-semibold">URBAN WEAR</span>
                 </Link>
               )}
 
@@ -243,6 +260,27 @@ export default function Header() {
                 </button>
               )}
 
+              {!isAdminArea && (
+                isAdminLoggedIn ? (
+                  <Link
+                    href="/admin"
+                    className="p-2 rounded-full hover:bg-white/10 transition-colors text-foreground"
+                    aria-label="Open admin account"
+                  >
+                    <UserRound className="h-5 w-5" />
+                  </Link>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setIsAdminAuthOpen(true)}
+                    className="p-2 rounded-full hover:bg-white/10 transition-colors text-foreground"
+                    aria-label="Open account access"
+                  >
+                    <UserRound className="h-5 w-5" />
+                  </button>
+                )
+              )}
+
               {/* Shopping Cart Button */}
               {!isAdminArea && (
                 <Link
@@ -251,7 +289,7 @@ export default function Header() {
                   aria-label={`Shopping cart with ${cartCount} items`}
                 >
                   <ShoppingCart className="h-5 w-5 group-hover:scale-105 transition-transform" />
-                  {cartCount > 0 && (
+                  {(cartCount > 0 || isHomepage) && (
                     <span
                       className="absolute -top-0.5 -right-0.5 bg-primary text-primary-foreground text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1"
                       aria-label={`${cartCount} items in cart`}
