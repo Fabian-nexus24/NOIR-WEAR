@@ -60,12 +60,12 @@ export default function Footer() {
           <div className="flex flex-col gap-3">
             <h2 className="text-[13px] font-bold uppercase tracking-wider text-[#0A0A0A] sm:text-sm">Get in Touch</h2>
             <a
-              href="https://wa.me/25480865479"
+              href="https://wa.me/254180865479"
               target="_blank"
               rel="noopener noreferrer"
               className="w-fit text-sm text-neutral-700 sm:text-[15px] transition-colors hover:text-primary"
             >
-              WhatsApp: +254 808 65479
+              WhatsApp: +254 180 865 479
             </a>
             <Link href="/contact" className="text-sm text-neutral-700 sm:text-[15px] transition-colors hover:text-primary">
               Contact NOIR

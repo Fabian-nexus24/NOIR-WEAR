@@ -1,13 +1,13 @@
 import { ArrowUpRight, Clock3, MapPin, MessageCircle } from "lucide-react";
 
 const storeAddress = "X36C+5WG, Kenyatta Hwy, Thika";
-const whatsappUrl = "https://wa.me/25480865479";
+const whatsappUrl = "https://wa.me/254180865479";
 
 const contactDetails = [
   {
     icon: MessageCircle,
     title: "WhatsApp",
-    content: "+254 808 65479",
+    content: "+254 180 865 479",
     href: whatsappUrl,
     detail: "Message us about orders, sizing, and availability.",
   },
