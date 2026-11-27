@@ -13,46 +13,47 @@ export default function HomeHero() {
         fill
         priority
         sizes="100vw"
-        className="noir-fullbleed-artwork"
-        style={{ objectPosition: "center center" }}
+        className="noir-fullbleed-artwork object-cover object-[60%_center] lg:object-center"
       />
       <div className="noir-fullbleed-wash" aria-hidden="true" />
-      <div className="noir-fullbleed-content">
-        <div className="noir-fullbleed-copy">
-          <p className="noir-fullbleed-kicker">
-            <span aria-hidden="true" /> NOIR — COLLECTION 001
-          </p>
-          <h1 id="hero-title">
-            <span>STYLE WITHOUT</span>
-            <em>LIMITS.</em>
-          </h1>
-          <p className="noir-fullbleed-description">
-            Premium streetwear for your everyday vibe.
-            <br />
-            Bold. Modern. Timeless.
-          </p>
-          <div className="noir-fullbleed-actions">
-            <Link href="/shop" className="noir-fullbleed-shop-button">
-              SHOP NOW <ArrowRight size={19} aria-hidden="true" />
-            </Link>
-            <span>WEAR THE NOIR VIBE</span>
+      <div className="noir-fullbleed-shell mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12">
+        <div className="noir-fullbleed-content">
+          <div className="noir-fullbleed-copy max-w-xl">
+            <p className="noir-fullbleed-kicker">
+              <span aria-hidden="true" /> NOIR — COLLECTION 001
+            </p>
+            <h1 id="hero-title">
+              <span>STYLE WITHOUT</span>
+              <em>LIMITS.</em>
+            </h1>
+            <p className="noir-fullbleed-description">
+              Premium streetwear for your everyday vibe.
+              <br />
+              Bold. Modern. Timeless.
+            </p>
+            <div className="noir-fullbleed-actions">
+              <Link href="/shop" className="noir-fullbleed-shop-button">
+                SHOP NOW <ArrowRight size={19} aria-hidden="true" />
+              </Link>
+              <span>WEAR THE NOIR VIBE</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="noir-fullbleed-footer">
-        <div className="noir-fullbleed-benefits" aria-label="Shopping benefits">
-          <div className="noir-fullbleed-benefit">
-            <Truck aria-hidden="true" />
-            <span><strong>Fast Delivery</strong><small>Across Kenya</small></span>
-          </div>
-          <div className="noir-fullbleed-benefit">
-            <ShieldCheck aria-hidden="true" />
-            <span><strong>Secure Checkout</strong><small>Shop with Confidence</small></span>
-          </div>
-          <div className="noir-fullbleed-benefit">
-            <Shirt aria-hidden="true" />
-            <span><strong>Trendy Styles</strong><small>Always in Vogue</small></span>
+        <div className="noir-fullbleed-footer max-w-xl">
+          <div className="noir-fullbleed-benefits" aria-label="Shopping benefits">
+            <div className="noir-fullbleed-benefit">
+              <Truck aria-hidden="true" />
+              <span><strong>Fast Delivery</strong><small>Across Kenya</small></span>
+            </div>
+            <div className="noir-fullbleed-benefit">
+              <ShieldCheck aria-hidden="true" />
+              <span><strong>Secure Checkout</strong><small>Shop with Confidence</small></span>
+            </div>
+            <div className="noir-fullbleed-benefit">
+              <Shirt aria-hidden="true" />
+              <span><strong>Trendy Styles</strong><small>Always in Vogue</small></span>
+            </div>
           </div>
         </div>
       </div>
