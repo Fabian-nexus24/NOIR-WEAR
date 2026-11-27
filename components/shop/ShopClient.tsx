@@ -16,7 +16,7 @@ export default function ShopClient() {
   const searchParams = useSearchParams();
   const [products, setProducts] = useState<Product[]>(defaultProducts as Product[]);
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get("category") || "All");
-  const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || searchParams.get("search") || "");
   const [maxPrice, setMaxPrice] = useState(6000);
   const [sortBy, setSortBy] = useState("featured");
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
@@ -41,7 +41,7 @@ export default function ShopClient() {
   if (searchParamsKey !== prevSearchParamsKey) {
     setPrevSearchParamsKey(searchParamsKey);
     const category = searchParams.get("category");
-    const search = searchParams.get("search");
+    const search = searchParams.get("q") || searchParams.get("search");
     if (category) setSelectedCategory(category);
     if (search) setSearchQuery(search);
   }

@@ -1,18 +1,10 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, ShieldCheck, Shirt, Truck } from "lucide-react";
+import { ArrowRight, ShieldCheck, Shirt, Truck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-
-const slidePositions = ["center center", "right center", "58% center"];
 
 export default function HomeHero() {
-  const [activeSlide, setActiveSlide] = useState(0);
-  const changeSlide = (direction: -1 | 1) => {
-    setActiveSlide((current) => (current + direction + slidePositions.length) % slidePositions.length);
-  };
-
   return (
     <section className="noir-fullbleed-hero" aria-labelledby="hero-title">
       <Image
@@ -22,10 +14,9 @@ export default function HomeHero() {
         priority
         sizes="100vw"
         className="noir-fullbleed-artwork"
-        style={{ objectPosition: slidePositions[activeSlide] }}
+        style={{ objectPosition: "center center" }}
       />
       <div className="noir-fullbleed-wash" aria-hidden="true" />
-      <div className="noir-fullbleed-top-wash" aria-hidden="true" />
       <div className="noir-fullbleed-content">
         <div className="noir-fullbleed-copy">
           <p className="noir-fullbleed-kicker">
@@ -63,15 +54,6 @@ export default function HomeHero() {
             <Shirt aria-hidden="true" />
             <span><strong>Trendy Styles</strong><small>Always in Vogue</small></span>
           </div>
-        </div>
-        <div className="noir-fullbleed-controls" aria-label="Hero artwork controls">
-          <span aria-live="polite">0{activeSlide + 1} <span>/</span> 03</span>
-          <button type="button" onClick={() => changeSlide(-1)} aria-label="Previous hero view">
-            <ArrowLeft aria-hidden="true" />
-          </button>
-          <button type="button" onClick={() => changeSlide(1)} aria-label="Next hero view">
-            <ArrowRight aria-hidden="true" />
-          </button>
         </div>
       </div>
     </section>
