@@ -156,12 +156,12 @@ export default function Header() {
                 </span>
               ) : (
                 <Link
-                  className="text-xl sm:text-2xl font-black tracking-tight text-[#111111] hover:opacity-90 transition-opacity noir-header-brand"
+                  className="group flex flex-col text-[#111111] transition-opacity noir-header-brand"
                   href="/"
                   aria-label="NOIR Urban Wear Home"
                 >
-                  <span className="block text-xl font-black tracking-[0.12em] sm:text-2xl">NOIR</span>
-                  <span className="hidden text-[9px] font-semibold tracking-[0.32em] md:block">URBAN WEAR</span>
+                  <span className="block text-2xl font-black leading-none tracking-[-0.04em] text-[#111111] transition-opacity group-hover:opacity-80 sm:text-3xl">NOIR</span>
+                  <span className="mt-0.5 block text-[9px] font-bold uppercase tracking-[0.28em] text-[#111111]/80 transition-opacity group-hover:opacity-80 sm:text-[10px]">URBAN WEAR</span>
                 </Link>
               )}
 
