@@ -333,8 +333,8 @@ body {
   .noir-hero-stage-label { right: 18px; left: 18px; font-size: 7px; }
   .noir-hero-product-caption { padding-inline: 8px; }
   .noir-hero-product-caption strong { font-size: 9px; }
-  .noir-category-filter { width: calc(100% - 36px); }
-  .noir-category-filter-link { padding: 9px 13px; }
+  .noir-category-filter { width: calc(100% - 36px); flex-wrap: wrap; gap: 4px; overflow: visible; }
+  .noir-category-filter-link { padding: 8px 9px; font-size: 9px; }
   .noir-intro { padding-block: 72px 65px; }
   .noir-intro-row { grid-template-columns: 1fr; gap: 22px; }
   .noir-intro-row h2 { font-size: clamp(42px, 11vw, 64px); }
@@ -484,7 +484,7 @@ body {
 .noir-product-price-row { display: flex; align-items: baseline; gap: 9px; margin-top: 7px; }
 .noir-product-price-row strong { color: #171717; font-size: 13px; font-weight: 800; }
 .noir-product-price-row del { color: #99958d; font-size: 10px; }
-@media (max-width: 767px) { .noir-product-quickadd { width: 34px; height: 34px; top: 8px; right: 8px; } .noir-product-status { top: 8px; left: 8px; } .noir-product-view { display: none; } .noir-product-info { padding-top: 9px; } .noir-product-name { font-size: 11px; } .noir-product-price-row strong { font-size: 11px; } }
+@media (max-width: 767px) { .noir-product-quickadd { width: 34px; height: 34px; top: 8px; right: 8px; } .noir-product-status { top: 8px; left: 8px; } .noir-product-view { display: none; } .noir-product-info { padding-top: 9px; } .noir-product-name { display: -webkit-box; min-height: 2.55em; overflow: hidden; font-size: 11px; line-height: 1.25; text-overflow: clip; white-space: normal; -webkit-box-orient: vertical; -webkit-line-clamp: 2; } .noir-product-price-row strong { font-size: 11px; } }
 
 /* NOIR Urban Wear — editorial product detail experience */
 .noir-product-page { min-height: 70vh; background: #f6f4ef; color: #171717; }

@@ -1,7 +1,23 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
+
+const DESKTOP_QUERY = "(min-width: 640px)";
+
+function subscribeToDesktopChanges(onStoreChange: () => void) {
+  const mediaQuery = window.matchMedia(DESKTOP_QUERY);
+  mediaQuery.addEventListener("change", onStoreChange);
+  return () => mediaQuery.removeEventListener("change", onStoreChange);
+}
+
+function getIsDesktop() {
+  return window.matchMedia(DESKTOP_QUERY).matches;
+}
+
+function getServerIsDesktop() {
+  return false;
+}
 
 interface WhatsAppWidgetProps {
   phoneNumber?: string;
@@ -13,7 +29,13 @@ export default function WhatsAppWidget({
   defaultMessage = "Hello NOIR Urban Wear! I need help with sizing or placing an order.",
 }: WhatsAppWidgetProps) {
   const pathname = usePathname();
-  const [isPromptOpen, setIsPromptOpen] = useState(true);
+  const isDesktop = useSyncExternalStore(
+    subscribeToDesktopChanges,
+    getIsDesktop,
+    getServerIsDesktop,
+  );
+  const [promptOverride, setPromptOverride] = useState<boolean | null>(null);
+  const isPromptOpen = promptOverride ?? isDesktop;
 
   if (!phoneNumber.trim() || pathname === "/admin" || pathname?.startsWith("/admin/")) {
     return null;
@@ -37,7 +59,7 @@ export default function WhatsAppWidget({
             </p>
             <button
               type="button"
-              onClick={() => setIsPromptOpen(false)}
+              onClick={() => setPromptOverride(false)}
               className="-mr-1 -mt-1 inline-flex size-7 shrink-0 items-center justify-center rounded-full text-lg leading-none text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-[#111111]"
               aria-label="Close WhatsApp help prompt"
             >
@@ -63,7 +85,7 @@ export default function WhatsAppWidget({
 
       <button
         type="button"
-        onClick={() => setIsPromptOpen((open) => !open)}
+        onClick={() => setPromptOverride(!isPromptOpen)}
         aria-label={isPromptOpen ? "Close WhatsApp help prompt" : "Open WhatsApp help prompt"}
         aria-expanded={isPromptOpen}
         className="relative inline-flex size-13 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2"
