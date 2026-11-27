@@ -17,7 +17,6 @@ export default function HomeHero() {
         style={{ objectPosition: "center center" }}
       />
       <div className="noir-fullbleed-wash" aria-hidden="true" />
-      <div className="noir-fullbleed-top-wash" aria-hidden="true" />
       <div className="noir-fullbleed-content">
         <div className="noir-fullbleed-copy">
           <p className="noir-fullbleed-kicker">
