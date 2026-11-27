@@ -1015,3 +1015,276 @@ body:has(.noir-home) .noir-demo-bar { display: none; }
   .noir-home .noir-hero-copy-inner h1 { font-size: 33px; }
   .noir-home .noir-hero-benefit { gap: 4px; }
 }
+
+.noir-home-header {
+  position: absolute !important;
+  inset: 0 0 auto !important;
+  z-index: 30 !important;
+  height: 80px !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+.noir-home-header-inner {
+  height: 100% !important;
+  padding-block: 0 !important;
+}
+.noir-home-header .noir-header-brand > span:first-child { font-size: clamp(30px, 2.4vw, 48px) !important; }
+.noir-home-header .noir-header-actions { gap: clamp(8px, 1.2vw, 20px) !important; }
+.noir-home-header .noir-header-actions > * + * { margin-left: 0 !important; }
+.noir-home-header .noir-header-actions a,
+.noir-home-header .noir-header-actions button { color: #fff !important; }
+.noir-home-header .noir-header-actions a:hover,
+.noir-home-header .noir-header-actions button:hover { background: rgba(255,255,255,.12); }
+.noir-home-header .noir-header-actions svg { width: 23px; height: 23px; stroke-width: 1.5; }
+.noir-home-header .noir-header-actions [aria-label*="items in cart"] {
+  background: #f6f4ef;
+  color: #171717;
+}
+.noir-fullbleed-hero {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: 75vh;
+  min-height: 75svh;
+  overflow: hidden;
+  background: #f4f2ed;
+  color: #111;
+}
+.noir-fullbleed-artwork {
+  z-index: -2;
+  left: 38% !important;
+  width: 62% !important;
+  object-fit: cover;
+  object-position: 20% center;
+}
+.noir-fullbleed-wash {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(90deg, #f4f2ed 0%, #f4f2ed 33%, rgba(244,242,237,.92) 40%, rgba(244,242,237,.52) 46%, rgba(244,242,237,.12) 51%, rgba(244,242,237,0) 56%);
+  pointer-events: none;
+}
+.noir-fullbleed-top-wash {
+  position: absolute;
+  z-index: 0;
+  inset: 0 0 auto;
+  height: 154px;
+  background: linear-gradient(90deg, rgba(244,242,237,.98) 0%, rgba(244,242,237,.98) 63%, rgba(244,242,237,.78) 67%, rgba(244,242,237,.15) 72%, transparent 76%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 25%, transparent 66%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 25%, transparent 66%);
+  pointer-events: none;
+}
+.noir-fullbleed-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: min(1440px, calc(100% - 80px));
+  min-height: 75vh;
+  min-height: 75svh;
+  align-items: center;
+  margin-inline: auto;
+  padding: 112px 0 142px;
+}
+.noir-fullbleed-copy { width: min(100%, 690px); }
+.noir-fullbleed-kicker {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 0 0 28px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .2em;
+}
+.noir-fullbleed-kicker > span { width: 80px; height: 1px; background: currentColor; }
+.noir-fullbleed-copy h1 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0;
+  font-size: clamp(48px, 5.1vw, 88px);
+  font-weight: 950;
+  line-height: .91;
+  letter-spacing: -.065em;
+}
+.noir-fullbleed-copy h1 span { white-space: nowrap; }
+.noir-fullbleed-copy h1 em {
+  position: relative;
+  display: block;
+  margin: 3px 0 9px -5px;
+  font-family: var(--font-display), cursive;
+  font-size: 1.35em;
+  font-style: italic;
+  font-weight: 950;
+  letter-spacing: -.105em;
+  line-height: .92;
+  transform: skewX(-8deg);
+}
+.noir-fullbleed-copy h1 em::after {
+  position: absolute;
+  right: 5%;
+  bottom: -.12em;
+  left: 5%;
+  height: .12em;
+  border-bottom: .075em solid #111;
+  border-radius: 60% 55% 0 0;
+  content: "";
+  transform: rotate(-2deg);
+}
+.noir-fullbleed-description {
+  margin: 28px 0 32px;
+  color: #222;
+  font-size: 17px;
+  line-height: 1.55;
+}
+.noir-fullbleed-actions { display: flex; align-items: center; gap: 28px; }
+.noir-fullbleed-shop-button {
+  display: inline-flex;
+  min-height: 58px;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 0 24px;
+  background: #080808;
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .18em;
+  transition: background .2s ease, transform .2s ease;
+}
+.noir-fullbleed-shop-button:hover { background: #343434; transform: translateY(-2px); }
+.noir-fullbleed-actions > span {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  padding-left: 28px;
+  border-left: 1px solid #171717;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .19em;
+}
+.noir-fullbleed-footer {
+  position: absolute;
+  z-index: 2;
+  right: max(40px, calc((100vw - 1440px) / 2));
+  bottom: 28px;
+  left: max(40px, calc((100vw - 1440px) / 2));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.noir-fullbleed-benefits { display: flex; align-items: center; }
+.noir-fullbleed-benefit {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 18px;
+  border-right: 1px solid rgba(17,17,17,.55);
+}
+.noir-fullbleed-benefit:first-child { padding-left: 0; }
+.noir-fullbleed-benefit:last-child { padding-right: 0; border-right: 0; }
+.noir-fullbleed-benefit > svg { width: 30px; height: 30px; flex: 0 0 auto; stroke-width: 1.8; }
+.noir-fullbleed-benefit > span { display: flex; flex-direction: column; gap: 3px; white-space: nowrap; }
+.noir-fullbleed-benefit strong { font-size: 11px; line-height: 1.15; }
+.noir-fullbleed-benefit small { color: #55524d; font-size: 10px; line-height: 1.2; }
+.noir-fullbleed-controls { display: flex; align-items: center; gap: 18px; color: white; }
+.noir-fullbleed-controls > span { font-size: 10px; font-weight: 800; letter-spacing: .17em; white-space: nowrap; }
+.noir-fullbleed-controls > span span { padding-inline: 3px; color: rgba(255,255,255,.58); }
+.noir-fullbleed-controls button {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: opacity .2s ease, transform .2s ease;
+}
+.noir-fullbleed-controls button:hover { opacity: .65; transform: translateX(2px); }
+.noir-fullbleed-controls button:first-of-type:hover { transform: translateX(-2px); }
+.noir-fullbleed-controls button svg { width: 19px; height: 19px; stroke-width: 1.6; }
+
+@media (min-width: 1024px) {
+  .noir-fullbleed-hero,
+  .noir-fullbleed-content { min-height: 85vh; min-height: 85svh; }
+}
+@media (max-width: 1100px) and (min-width: 768px) {
+  .noir-fullbleed-content { width: calc(100% - 60px); }
+  .noir-fullbleed-copy { width: min(100%, 560px); }
+  .noir-fullbleed-copy h1 { font-size: clamp(42px, 5vw, 62px); }
+  .noir-fullbleed-kicker { gap: 12px; font-size: 9px; }
+  .noir-fullbleed-kicker > span { width: 48px; }
+  .noir-fullbleed-footer { right: 30px; left: 30px; }
+  .noir-fullbleed-benefit { gap: 7px; padding-inline: 10px; }
+  .noir-fullbleed-benefit > svg { width: 23px; height: 23px; }
+  .noir-fullbleed-benefit strong { font-size: 9px; }
+  .noir-fullbleed-benefit small { font-size: 8px; }
+}
+@media (max-width: 767px) {
+  .noir-home-header { height: 72px !important; background: transparent !important; }
+  .noir-home-header-inner { padding: 0 18px !important; }
+  .noir-home-header .noir-header-brand > span:first-child { font-size: 25px !important; }
+  .noir-home-header .noir-header-brand > span:last-child { font-size: 7px !important; }
+  .noir-home-header .noir-header-actions { gap: 3px !important; }
+  .noir-home-header .noir-header-actions a,
+  .noir-home-header .noir-header-actions button { padding: 7px; }
+  .noir-home-header .noir-header-actions svg { width: 20px; height: 20px; }
+  .noir-fullbleed-hero { min-height: max(56vh, 520px); min-height: max(56svh, 520px); }
+  .noir-fullbleed-artwork {
+    left: 0 !important;
+    width: 100% !important;
+    object-position: 35% center;
+  }
+  .noir-fullbleed-wash {
+    background: linear-gradient(90deg, rgba(244,242,237,.99) 0%, rgba(244,242,237,.98) 48%, rgba(244,242,237,.82) 66%, rgba(244,242,237,.3) 82%, rgba(244,242,237,.06) 100%);
+  }
+  .noir-fullbleed-top-wash {
+    height: 72px;
+    background: linear-gradient(90deg, rgba(244,242,237,.98) 0%, rgba(244,242,237,.92) 42%, rgba(244,242,237,.22) 53%, transparent 60%);
+  }
+  .noir-fullbleed-content {
+    width: calc(100% - 40px);
+    min-height: max(56vh, 520px);
+    min-height: max(56svh, 520px);
+    align-items: flex-start;
+    padding: 112px 0 145px;
+  }
+  .noir-fullbleed-copy { width: min(100%, 470px); }
+  .noir-fullbleed-kicker { gap: 12px; margin-bottom: 22px; font-size: 9px; }
+  .noir-fullbleed-kicker > span { width: 42px; }
+  .noir-fullbleed-copy h1 { font-size: clamp(35px, 9vw, 55px); }
+  .noir-fullbleed-copy h1 em { margin-bottom: 7px; }
+  .noir-fullbleed-description { margin: 21px 0 24px; font-size: 14px; }
+  .noir-fullbleed-actions { gap: 14px; }
+  .noir-fullbleed-shop-button { min-height: 50px; gap: 14px; padding-inline: 16px; font-size: 9px; }
+  .noir-fullbleed-actions > span { min-height: 40px; padding-left: 14px; font-size: 8px; letter-spacing: .12em; }
+  .noir-fullbleed-footer { right: 20px; bottom: 16px; left: 20px; display: block; isolation: isolate; }
+  .noir-fullbleed-footer::before {
+    position: absolute;
+    z-index: -1;
+    inset: -10px -20px -14px;
+    background: linear-gradient(90deg, rgba(244,242,237,.96), rgba(244,242,237,.84) 68%, transparent 100%);
+    content: "";
+    pointer-events: none;
+  }
+  .noir-fullbleed-benefits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .noir-fullbleed-benefit { align-items: flex-start; gap: 5px; padding: 0 4px; border: 0; }
+  .noir-fullbleed-benefit:first-child { padding-left: 0; }
+  .noir-fullbleed-benefit > svg { width: 18px; height: 18px; }
+  .noir-fullbleed-benefit > span { gap: 3px; white-space: normal; }
+  .noir-fullbleed-benefit strong { font-size: 8px; }
+  .noir-fullbleed-benefit small { font-size: 7px; line-height: 1.25; }
+  .noir-fullbleed-controls { justify-content: flex-end; gap: 12px; margin-top: 7px; }
+  .noir-fullbleed-controls > span { font-size: 8px; }
+  .noir-fullbleed-controls button { width: 24px; height: 24px; }
+  .noir-fullbleed-controls button svg { width: 17px; height: 17px; }
+}
+@media (max-width: 380px) {
+  .noir-fullbleed-content { width: calc(100% - 32px); }
+  .noir-fullbleed-copy h1 { font-size: 33px; }
+  .noir-fullbleed-footer { right: 16px; left: 16px; }
+  .noir-fullbleed-benefit { gap: 3px; }
+}

@@ -3,12 +3,19 @@ import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import { CartProvider } from "@/context/CartContext";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Permanent_Marker } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const permanentMarker = Permanent_Marker({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: "400",
   display: "swap",
 });
 
@@ -26,12 +33,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} antialiased flex flex-col min-h-screen bg-background text-foreground selection:bg-primary/20 selection:text-primary`}
+        className={`${inter.className} ${permanentMarker.variable} antialiased flex flex-col min-h-screen bg-background text-foreground selection:bg-primary/20 selection:text-primary`}
       >
         <CartProvider>
-          <div className="noir-demo-bar" role="note" aria-label="Store location and delivery information">
-            <span>NOIR URBAN WEAR · X36C+5WG, KENYATTA HWY, THIKA · SAME-DAY DELIVERY</span>
-          </div>
           <Header />
           <main className="flex-grow">{children}</main>
           <Footer />

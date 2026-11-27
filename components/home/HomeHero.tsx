@@ -1,76 +1,77 @@
-import { ArrowRight, ShieldCheck, Shirt, Truck } from "lucide-react";
+"use client";
+
+import { ArrowLeft, ArrowRight, ShieldCheck, Shirt, Truck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+
+const slidePositions = ["center center", "right center", "58% center"];
 
 export default function HomeHero() {
+  const [activeSlide, setActiveSlide] = useState(0);
+  const changeSlide = (direction: -1 | 1) => {
+    setActiveSlide((current) => (current + direction + slidePositions.length) % slidePositions.length);
+  };
+
   return (
-    <section className="noir-hero" aria-labelledby="hero-title">
-      <div className="noir-hero-copy-panel">
-        <div className="noir-hero-copy-inner">
-          <p className="noir-hero-kicker">
+    <section className="noir-fullbleed-hero" aria-labelledby="hero-title">
+      <Image
+        src="/images/hero-noir-art.png"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="noir-fullbleed-artwork"
+        style={{ objectPosition: slidePositions[activeSlide] }}
+      />
+      <div className="noir-fullbleed-wash" aria-hidden="true" />
+      <div className="noir-fullbleed-top-wash" aria-hidden="true" />
+      <div className="noir-fullbleed-content">
+        <div className="noir-fullbleed-copy">
+          <p className="noir-fullbleed-kicker">
             <span aria-hidden="true" /> NOIR — COLLECTION 001
           </p>
           <h1 id="hero-title">
-            <span className="noir-hero-title-first">STYLE&nbsp;WITHOUT</span>
-            <span className="noir-hero-title-limit">LIMITS.</span>
+            <span>STYLE WITHOUT</span>
+            <em>LIMITS.</em>
           </h1>
-          <p className="noir-hero-copy">
+          <p className="noir-fullbleed-description">
             Premium streetwear for your everyday vibe.
             <br />
             Bold. Modern. Timeless.
           </p>
-          <div className="noir-hero-actions">
-            <Link href="/shop" className="noir-hero-shop-button">
-              SHOP NOW <ArrowRight size={18} aria-hidden="true" />
+          <div className="noir-fullbleed-actions">
+            <Link href="/shop" className="noir-fullbleed-shop-button">
+              SHOP NOW <ArrowRight size={19} aria-hidden="true" />
             </Link>
-            <span className="noir-hero-action-note">WEAR THE NOIR VIBE</span>
-          </div>
-        </div>
-
-        <div className="noir-hero-benefits" aria-label="Shopping benefits">
-          <div className="noir-hero-benefit">
-            <Truck size={30} strokeWidth={1.8} aria-hidden="true" />
-            <span>
-              <strong>Fast Delivery</strong>
-              <small>Across Kenya</small>
-            </span>
-          </div>
-          <div className="noir-hero-benefit">
-            <ShieldCheck size={30} strokeWidth={1.8} aria-hidden="true" />
-            <span>
-              <strong>Secure Checkout</strong>
-              <small>Shop with Confidence</small>
-            </span>
-          </div>
-          <div className="noir-hero-benefit">
-            <Shirt size={30} strokeWidth={1.8} aria-hidden="true" />
-            <span>
-              <strong>Trendy Styles</strong>
-              <small>Always in Vogue</small>
-            </span>
+            <span>WEAR THE NOIR VIBE</span>
           </div>
         </div>
       </div>
 
-      <div className="noir-hero-stage" role="group" aria-label="NOIR Collection 001 editorial">
-        <Image
-          src="/images/noir-hero-editorial.png"
-          alt="A black hoodie, black-and-white high-top sneakers, and a black cap arranged on concrete plinths in a dark studio."
-          fill
-          priority
-          sizes="(max-width: 767px) 100vw, 62vw"
-          className="noir-hero-stage-image"
-        />
-        <div className="noir-hero-stage-shade" aria-hidden="true" />
-        <span className="noir-hero-stage-wordmark" aria-hidden="true">
-          NOIR
-        </span>
-        <div className="noir-hero-stage-label">
-          <span>NOIR — COLLECTION 001</span>
-          <span>THIKA · KENYA</span>
+      <div className="noir-fullbleed-footer">
+        <div className="noir-fullbleed-benefits" aria-label="Shopping benefits">
+          <div className="noir-fullbleed-benefit">
+            <Truck aria-hidden="true" />
+            <span><strong>Fast Delivery</strong><small>Across Kenya</small></span>
+          </div>
+          <div className="noir-fullbleed-benefit">
+            <ShieldCheck aria-hidden="true" />
+            <span><strong>Secure Checkout</strong><small>Shop with Confidence</small></span>
+          </div>
+          <div className="noir-fullbleed-benefit">
+            <Shirt aria-hidden="true" />
+            <span><strong>Trendy Styles</strong><small>Always in Vogue</small></span>
+          </div>
         </div>
-        <div className="noir-hero-stage-index" aria-hidden="true">
-          01 <span>/</span> NOIR ESSENTIALS
+        <div className="noir-fullbleed-controls" aria-label="Hero artwork controls">
+          <span aria-live="polite">0{activeSlide + 1} <span>/</span> 03</span>
+          <button type="button" onClick={() => changeSlide(-1)} aria-label="Previous hero view">
+            <ArrowLeft aria-hidden="true" />
+          </button>
+          <button type="button" onClick={() => changeSlide(1)} aria-label="Next hero view">
+            <ArrowRight aria-hidden="true" />
+          </button>
         </div>
       </div>
     </section>
