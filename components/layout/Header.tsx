@@ -187,36 +187,23 @@ export default function Header() {
               )}
             </div>
 
-            {/* Desktop Search */}
-            {!isAdminArea && (
-              <div className="noir-header-desktop-search ml-auto hidden min-w-0 flex-1 md:w-64 md:max-w-xs md:flex lg:w-80 lg:max-w-sm">
-                <form onSubmit={handleSearchSubmit} className="relative w-full">
-                  <input
-                    type="search"
-                    placeholder="Search shoes, t-shirts, hoodies, bags..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full rounded-full border border-black/15 bg-white/80 px-4 py-1.5 pl-9 text-sm text-[#111111] transition-all placeholder:text-neutral-500 focus:border-black/30 focus:outline-none focus:ring-2 focus:ring-black/10"
-                    aria-label="Search products"
-                  />
-                  <Search aria-hidden="true" className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-[#111111]" />
-                </form>
-              </div>
-            )}
-
             {/* Right Side Actions */}
-            <div className="flex items-center space-x-2 sm:space-x-3 noir-header-actions">
-              {/* Mobile Search Toggle */}
+            <div className="flex items-center gap-1 sm:gap-2 noir-header-actions">
+              {/* Search Toggle */}
               {!isAdminArea && (
                 <button
                   type="button"
                   onClick={() => setIsSearchOpen(!isSearchOpen)}
-                  className="inline-flex size-10 items-center justify-center rounded-full text-[#111111] transition-colors hover:bg-black/5 md:hidden"
+                  className="inline-flex size-10 items-center justify-center rounded-full text-[#111111] transition-colors hover:bg-black/5"
                   aria-label={isSearchOpen ? "Close search" : "Open search"}
                   aria-expanded={isSearchOpen}
-                  aria-controls="mobile-search-panel"
+                  aria-controls="header-search-panel"
                 >
-                  <Search className="h-5 w-5" />
+                  {isSearchOpen ? (
+                    <X aria-hidden="true" className="h-5 w-5" />
+                  ) : (
+                    <Search aria-hidden="true" className="h-5 w-5" />
+                  )}
                 </button>
               )}
 
@@ -224,7 +211,7 @@ export default function Header() {
                 isAdminLoggedIn ? (
                   <Link
                     href="/admin"
-                    className="hidden size-10 items-center justify-center rounded-full text-[#111111] transition-colors hover:bg-black/5 md:inline-flex"
+                    className="inline-flex size-10 items-center justify-center rounded-full text-[#111111] transition-colors hover:bg-black/5"
                     aria-label="Open admin account"
                   >
                     <UserRound className="h-5 w-5" />
@@ -233,7 +220,7 @@ export default function Header() {
                   <button
                     type="button"
                     onClick={() => setIsAdminAuthOpen(true)}
-                    className="hidden size-10 items-center justify-center rounded-full text-[#111111] transition-colors hover:bg-black/5 md:inline-flex"
+                    className="inline-flex size-10 items-center justify-center rounded-full text-[#111111] transition-colors hover:bg-black/5"
                     aria-label="Open account access"
                   >
                     <UserRound className="h-5 w-5" />
@@ -293,8 +280,8 @@ export default function Header() {
 
           {/* Expandable Mobile Search Bar */}
           {!isAdminArea && isSearchOpen && (
-            <div id="mobile-search-panel" className="mt-2 border-t border-black/10 pt-3 md:hidden">
-              <form onSubmit={handleSearchSubmit} className="relative">
+            <div id="header-search-panel" className="mt-2 border-t border-black/10 pt-3">
+              <form onSubmit={handleSearchSubmit} className="relative mx-auto w-full max-w-xl">
                 <input
                   type="search"
                   placeholder="Search shoes, t-shirts, hoodies, bags..."
