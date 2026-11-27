@@ -73,10 +73,11 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      setIsScrolled(window.scrollY > 20);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -138,48 +139,54 @@ export default function Header() {
 
   return (
     <>
-      {/* Top Admin Status Bar when Logged In */}
-      {isAdminLoggedIn && !isAdminArea && (
-        <div className="bg-foreground text-background text-xs py-1.5 px-4">
-          <div className="container mx-auto flex items-center justify-between">
-            <Link
-              href="/admin"
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-colors"
-            >
-              <Plus className="h-3.5 w-3.5" />
-              <span>Admin Dashboard</span>
-            </Link>
-
-            <button
-              type="button"
-              onClick={handleAdminLogout}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-red-400 hover:text-red-300 hover:bg-white/10 transition-colors"
-            >
-              <LogOut className="h-3.5 w-3.5" />
-              <span>Logout</span>
-            </button>
-          </div>
-        </div>
-      )}
-
-      {!isHomepage && (
-        <div className="noir-demo-bar" role="note" aria-label="Store location and delivery information">
-          <span>NOIR URBAN WEAR · X36C+5WG, KENYATTA HWY, THIKA · SAME-DAY DELIVERY</span>
-        </div>
-      )}
-
       <header
         data-homepage={isHomepage ? "true" : undefined}
+        data-scrolled={isHomepage && !isScrolled ? "false" : "true"}
         className={
-          isHomepage
-            ? "noir-home-header absolute inset-x-0 top-0 z-30 h-20 bg-transparent"
-            : `sticky top-0 z-40 transition-all duration-300 ${
+          isAdminArea
+            ? `sticky top-0 z-40 transition-all duration-300 ${
                 isScrolled
                   ? "bg-background/95 backdrop-blur-xl border-b border-border shadow-xs"
                   : "bg-background/85 backdrop-blur-md border-b border-border/60 shadow-none"
               }`
+            : `noir-site-header fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+                isHomepage ? "noir-home-header" : ""
+              } ${
+                isHomepage && !isScrolled
+                  ? "bg-transparent border-0 shadow-none"
+                  : "bg-[#F4F1EA]/95 backdrop-blur-md border-b border-black/10 shadow-sm"
+              }`
         }
       >
+        {isAdminLoggedIn && !isAdminArea && (
+          <div className="bg-foreground text-background text-xs py-1.5 px-4">
+            <div className="container mx-auto flex items-center justify-between">
+              <Link
+                href="/admin"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-colors"
+              >
+                <Plus className="h-3.5 w-3.5" />
+                <span>Admin Dashboard</span>
+              </Link>
+
+              <button
+                type="button"
+                onClick={handleAdminLogout}
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-red-400 hover:text-red-300 hover:bg-white/10 transition-colors"
+              >
+                <LogOut className="h-3.5 w-3.5" />
+                <span>Logout</span>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {!isHomepage && (
+          <div className="noir-demo-bar" role="note" aria-label="Store location and delivery information">
+            <span>NOIR URBAN WEAR · X36C+5WG, KENYATTA HWY, THIKA · SAME-DAY DELIVERY</span>
+          </div>
+        )}
+
         <div
           className={`container mx-auto px-4 sm:px-6 noir-home-header-inner ${
             isHomepage ? "h-full py-0" : "py-3.5"
@@ -194,7 +201,7 @@ export default function Header() {
                 </span>
               ) : (
                 <Link
-                  className="text-xl sm:text-2xl font-black tracking-tight text-foreground hover:opacity-90 transition-opacity noir-header-brand"
+                  className="text-xl sm:text-2xl font-black tracking-tight text-[#111111] hover:opacity-90 transition-opacity noir-header-brand"
                   href="/"
                   aria-label="NOIR Urban Wear Home"
                 >
@@ -215,8 +222,8 @@ export default function Header() {
                       href={href}
                       className={`py-1.5 px-3.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                         isActivePath(href)
-                          ? "bg-primary/10 text-primary font-semibold"
-                          : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                          ? "bg-primary/10 text-[#111111] font-semibold"
+                          : "text-[#111111] hover:bg-black/5 hover:text-[#111111]"
                       }`}
                       aria-current={isActivePath(href) ? "page" : undefined}
                     >
@@ -373,8 +380,8 @@ export default function Header() {
                     onClick={closeMobileMenu}
                     className={`text-sm font-medium py-2 px-3 rounded-lg transition-all ${
                       isActivePath(href)
-                        ? "bg-primary/10 text-primary font-semibold"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                          ? "bg-primary/10 text-[#111111] font-semibold"
+                          : "text-[#111111] hover:bg-black/5"
                     }`}
                   >
                     {label}
@@ -412,6 +419,13 @@ export default function Header() {
           )}
         </div>
       </header>
+
+      {!isHomepage && !isAdminArea && (
+        <div
+          aria-hidden="true"
+          className={isAdminLoggedIn ? "h-[140px]" : "h-[110px]"}
+        />
+      )}
 
       {/* Admin Auth Modal */}
       <AdminAuthModal
