@@ -1,14 +1,9 @@
 import HomeHero from "@/components/home/HomeHero";
 import ProductCard from "@/components/home/ProductCard";
-import rawProducts from "@/data/products.json";
-import { Product } from "@/types/product";
+import { getProducts } from "@/lib/products";
 import { ArrowDownRight, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-const products = rawProducts as Product[];
-const featuredProducts = products.filter((product) =>
-  [1, 3, 7, 8, 12, 15, 16, 18].includes(product.id),
-);
 const productCategories = ["All", "Shoes", "T-Shirts", "Hoodies", "Accessories"] as const;
 
 const collections = [
@@ -33,14 +28,13 @@ export default async function Home({
 }: {
   searchParams: Promise<{ category?: string }>;
 }) {
-  const { category } = await searchParams;
+  const [{ category }, products] = await Promise.all([searchParams, getProducts()]);
   const selectedCategory = productCategories.includes(category as (typeof productCategories)[number])
     ? (category as (typeof productCategories)[number])
     : "All";
-  const visibleProducts =
-    selectedCategory === "All"
-      ? featuredProducts
-      : products.filter((product) => product.category === selectedCategory);
+  const visibleProducts = (selectedCategory === "All"
+    ? products.slice(0, 8)
+    : products.filter((product) => product.category === selectedCategory).slice(0, 8));
 
   return (
     <div className="noir-home">
@@ -81,15 +75,15 @@ export default async function Home({
               SHOP EVERYTHING <ArrowRight size={15} />
             </Link>
           </div>
-          <div className="noir-product-grid">
-            {visibleProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                className="noir-product-card"
-              />
-            ))}
-          </div>
+          {visibleProducts.length ? (
+            <div className="noir-product-grid">
+              {visibleProducts.map((product) => (
+                <ProductCard key={product.id} product={product} className="noir-product-card" />
+              ))}
+            </div>
+          ) : (
+            <p className="border border-neutral-200 px-5 py-10 text-center text-sm text-neutral-600">{category ? "No products are currently listed in this category." : "Our collection is being updated. Please check back soon."}</p>
+          )}
         </div>
       </section>
 

@@ -1,18 +1,16 @@
 import ProductCard from "@/components/home/ProductCard";
 import { Button } from "@/components/ui/button";
-import rawProducts from "@/data/products.json";
-import { Product } from "@/types/product";
+import { useProducts } from "@/lib/use-products";
+import type { Product } from "@/types/product";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-
-const products = rawProducts as Product[];
 
 interface RelatedProductsProps {
   product: Product;
 }
 
 export default function RelatedProducts({ product }: RelatedProductsProps) {
-  // First match same category, then fallback to others
+  const { products } = useProducts();
   const sameCategory = products.filter(
     (p) => p.id !== product.id && p.category === product.category
   );
@@ -20,6 +18,7 @@ export default function RelatedProducts({ product }: RelatedProductsProps) {
     (p) => p.id !== product.id && p.category !== product.category
   );
   const relatedList = [...sameCategory, ...otherItems].slice(0, 4);
+  if (!relatedList.length) return null;
 
   return (
     <section className="pt-8 sm:pt-12 border-t border-border/60">

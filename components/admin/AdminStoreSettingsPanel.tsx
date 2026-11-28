@@ -8,7 +8,7 @@ import type { StoreSettings } from "@/lib/admin-dashboard-storage";
 
 type Props = {
   settings: StoreSettings;
-  onSave: (settings: StoreSettings) => boolean;
+  onSave: (settings: StoreSettings) => Promise<boolean>;
 };
 
 export default function AdminStoreSettingsPanel({ settings, onSave }: Props) {
@@ -24,14 +24,14 @@ export default function AdminStoreSettingsPanel({ settings, onSave }: Props) {
     <section aria-labelledby="settings-heading" className="flex flex-col gap-6">
       <div>
         <h2 id="settings-heading" className="text-xl font-semibold tracking-tight sm:text-2xl">Store Settings</h2>
-        <p className="mt-1 text-sm text-neutral-600">Update the storefront details shown in this browser-only demo.</p>
+        <p className="mt-1 text-sm text-neutral-600">Update the contact details shown across the storefront.</p>
       </div>
 
       <form
         className="flex max-w-3xl flex-col gap-5 border border-neutral-200 bg-white p-4 sm:p-6"
-        onSubmit={(event) => {
+        onSubmit={async (event) => {
           event.preventDefault();
-          setSaved(onSave(draft));
+          setSaved(await onSave(draft));
         }}
       >
         <div className="grid gap-5 sm:grid-cols-2">
@@ -77,7 +77,7 @@ export default function AdminStoreSettingsPanel({ settings, onSave }: Props) {
               className="resize-y rounded-sm border-neutral-300 text-sm shadow-none focus-visible:ring-[#0A0A0A]"
               placeholder="Add a short message for the storefront announcement bar"
             />
-            <span className="text-xs font-normal text-neutral-500">Up to 180 characters. This saved demo setting does not yet update the live storefront.</span>
+            <span className="text-xs font-normal text-neutral-500">Up to 180 characters.</span>
           </label>
         </div>
 
@@ -88,7 +88,7 @@ export default function AdminStoreSettingsPanel({ settings, onSave }: Props) {
           >
             Save Changes
           </Button>
-          {saved && <span className="text-sm text-neutral-600" role="status">Saved in this browser.</span>}
+          {saved && <span className="text-sm text-neutral-600" role="status">Saved.</span>}
         </div>
       </form>
     </section>

@@ -3,7 +3,7 @@ import AdminDashboard from "@/components/admin/AdminDashboard";
 
 export const metadata: Metadata = {
   title: "NOIR Urban Wear — Admin",
-  description: "Manage the NOIR Urban Wear product catalogue, sample orders, and store settings.",
+  description: "Manage the NOIR Urban Wear catalogue, customer orders, and store settings.",
   robots: { index: false, follow: false },
 };
 
