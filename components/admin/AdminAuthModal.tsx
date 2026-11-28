@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ShieldCheck, UserRound, X } from "lucide-react";
+import { UserRound, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function AdminAuthModal({
@@ -19,13 +19,10 @@ export default function AdminAuthModal({
         </button>
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">NOIR URBAN WEAR</p>
         <h2 id="account-access-heading" className="mt-2 text-xl font-semibold tracking-tight">Account access</h2>
-        <p className="mt-1 text-sm text-neutral-600">Sign in to view your account or manage the store.</p>
+        <p className="mt-1 text-sm text-neutral-600">Sign in or create an account to continue.</p>
         <div className="mt-6 flex flex-col gap-3">
           <Button asChild onClick={onClose} className="h-11 rounded-none bg-[#0A0A0A] text-sm text-white hover:bg-neutral-800">
-            <Link href="/login"><UserRound data-icon="inline-start" aria-hidden="true" />Customer sign in</Link>
-          </Button>
-          <Button asChild onClick={onClose} variant="outline" className="h-11 rounded-none border-neutral-300 bg-white text-sm text-[#0A0A0A] hover:bg-neutral-50">
-            <Link href="/login?role=admin"><ShieldCheck data-icon="inline-start" aria-hidden="true" />Admin sign in</Link>
+            <Link href="/login"><UserRound data-icon="inline-start" aria-hidden="true" />Continue to account</Link>
           </Button>
         </div>
       </section>

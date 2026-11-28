@@ -12,7 +12,6 @@ export async function updateSession(request: NextRequest) {
     if (isAdminRoute || isAccountRoute) {
       const url = request.nextUrl.clone()
       url.pathname = '/login'
-      url.searchParams.set('role', isAdminRoute ? 'admin' : 'customer')
       url.searchParams.set('next', pathname)
       return NextResponse.redirect(url)
     }
@@ -74,10 +73,8 @@ export async function updateSession(request: NextRequest) {
     const { data: isAdmin, error } = await supabase.rpc('is_noir_admin')
     if (error || isAdmin !== true) {
       const url = request.nextUrl.clone()
-      url.pathname = '/login'
-      url.searchParams.set('role', 'admin')
-      url.searchParams.set('next', pathname)
-      url.searchParams.set('reason', 'admin-required')
+      url.pathname = '/account'
+      url.search = ''
       const redirect = NextResponse.redirect(url)
       supabaseResponse.cookies.getAll().forEach((cookie) => redirect.cookies.set(cookie))
       return redirect

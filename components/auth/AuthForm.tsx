@@ -4,17 +4,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { createClient } from "@/lib/supabase/client";
-import { ArrowRight, Eye, EyeOff, ShieldCheck } from "lucide-react";
+import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { mutate } from "swr";
 
 type Mode = "signin" | "signup";
-type Access = "customer" | "admin";
 
 function safeNextPath(value: string | null) {
   return value?.startsWith("/") && !value.startsWith("//") ? value : null;
+}
+
+function isAdminPath(path: string) {
+  return path === "/admin" || path.startsWith("/admin/");
 }
 
 function authMessage(message: string) {
@@ -34,10 +37,9 @@ function authMessage(message: string) {
   return "We couldn’t complete that request. Please try again.";
 }
 
-export default function AuthForm({ initialAccess = "customer", initialNext }: { initialAccess?: Access; initialNext?: string }) {
+export default function AuthForm({ initialNext }: { initialNext?: string }) {
   const router = useRouter();
   const [mode, setMode] = useState<Mode>("signin");
-  const [access, setAccess] = useState<Access>(initialAccess);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
@@ -58,11 +60,6 @@ export default function AuthForm({ initialAccess = "customer", initialNext }: { 
       setError("Authentication is unavailable in this preview until the project’s Supabase environment is present.");
       return;
     }
-    if (access === "admin" && mode === "signup") {
-      setError("Admin accounts are provisioned by the store owner. Sign in with your existing admin account.");
-      return;
-    }
-
     setIsSubmitting(true);
     const supabase = createClient();
     try {
@@ -102,19 +99,20 @@ export default function AuthForm({ initialAccess = "customer", initialNext }: { 
           password,
         });
         if (signInError) throw signInError;
-        if (access === "admin") {
-          const { data: isAdmin, error: adminError } = await supabase.rpc("is_noir_admin");
-          if (adminError || isAdmin !== true) {
-            await supabase.auth.signOut();
-            setError("This account does not have NOIR admin access.");
-            return;
-          }
-          await mutate("noir-session");
-          router.replace(safeNextPath(initialNext ?? null) ?? "/admin/dashboard");
-        } else {
-          await mutate("noir-session");
-          router.replace(safeNextPath(initialNext ?? null) ?? "/");
+
+        const { data: isAdmin, error: adminError } = await supabase.rpc("is_noir_admin");
+        if (adminError) {
+          await supabase.auth.signOut();
+          setError("We couldn’t verify your account access. Please try again.");
+          return;
         }
+
+        await mutate("noir-session");
+        const requestedPath = safeNextPath(initialNext ?? null);
+        const destination = isAdmin === true
+          ? requestedPath && isAdminPath(requestedPath) ? requestedPath : "/admin/dashboard"
+          : requestedPath && !isAdminPath(requestedPath) ? requestedPath : "/account";
+        router.replace(destination);
         router.refresh();
       }
     } catch (caught) {
@@ -147,18 +145,6 @@ export default function AuthForm({ initialAccess = "customer", initialNext }: { 
             ))}
           </div>
 
-          <fieldset className="mt-5">
-            <legend className="mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-neutral-600">Access type</legend>
-            <div className="grid grid-cols-2 gap-2">
-              {(["customer", "admin"] as const).map((item) => (
-                <button key={item} type="button" aria-pressed={access === item} onClick={() => { setAccess(item); setError(""); }} className={`flex min-h-11 items-center justify-center gap-2 border px-3 text-sm font-medium transition-colors ${access === item ? "border-[#0A0A0A] bg-neutral-50 text-[#0A0A0A]" : "border-neutral-200 text-neutral-600 hover:border-neutral-400"}`}>
-                  {item === "admin" && <ShieldCheck aria-hidden="true" className="size-4" />}
-                  {item === "customer" ? "Customer" : "Admin"}
-                </button>
-              ))}
-            </div>
-          </fieldset>
-
           {error && <p className="mt-5 border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-800" role="alert">{error}</p>}
           {message && <p className="mt-5 border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-sm text-neutral-700" role="status">{message}</p>}
 
@@ -177,7 +163,6 @@ export default function AuthForm({ initialAccess = "customer", initialNext }: { 
                 <button type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? "Hide password" : "Show password"} className="absolute inset-y-0 right-0 inline-flex w-11 items-center justify-center text-neutral-500 hover:text-[#0A0A0A]">{showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}</button>
               </span>
             </label>
-            {mode === "signup" && access === "admin" && <p className="text-xs text-neutral-600">Admin accounts are created separately by the store owner.</p>}
             <Button type="submit" disabled={isSubmitting} className="mt-1 h-11 w-full rounded-none bg-[#0A0A0A] text-sm font-semibold text-white hover:bg-neutral-800">
               {isSubmitting ? "Please wait…" : mode === "signin" ? "Sign In" : "Create Account"}
               {!isSubmitting && <ArrowRight data-icon="inline-end" aria-hidden="true" />}
