@@ -20,6 +20,15 @@ function isAdminPath(path: string) {
   return path === "/admin" || path.startsWith("/admin/");
 }
 
+function getSignupRedirectUrl() {
+  const redirectUrl = new URL(
+    process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL ?? "/auth/callback",
+    window.location.origin,
+  );
+  redirectUrl.searchParams.set("next", "/shop");
+  return redirectUrl.toString();
+}
+
 function authMessage(message: string) {
   const normalized = message.toLowerCase();
   if (normalized.includes("invalid login credentials") || normalized.includes("user not found")) {
@@ -68,9 +77,7 @@ export default function AuthForm({ initialNext }: { initialNext?: string }) {
           email: email.trim(),
           password,
           options: {
-            emailRedirectTo:
-              process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL ??
-              `${window.location.origin}/auth/callback?next=/account`,
+            emailRedirectTo: getSignupRedirectUrl(),
             data: {
               first_name: firstName.trim(),
               last_name: lastName.trim(),
@@ -87,11 +94,11 @@ export default function AuthForm({ initialNext }: { initialNext?: string }) {
             phone: phone.trim(),
           });
           await mutate("noir-session");
-          router.replace("/account");
+          router.replace("/shop");
           router.refresh();
           return;
         }
-        setMessage("Your account is created. Check your email to confirm your address, then sign in.");
+        setMessage("Your account is created. Check your email to confirm your address, then start shopping.");
         setMode("signin");
       } else {
         const { error: signInError } = await supabase.auth.signInWithPassword({

@@ -4,9 +4,9 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = request.nextUrl
   const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/'
+  const next = searchParams.get('next') ?? '/shop'
 
-  const safeNext = next.startsWith("/") && !next.startsWith("//") ? next : "/account"
+  const safeNext = next.startsWith("/") && !next.startsWith("//") ? next : "/shop"
 
   if (code) {
     const supabase = await createClient()
