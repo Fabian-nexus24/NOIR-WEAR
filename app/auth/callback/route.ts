@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
       const { data: { user } } = await supabase.auth.getUser()
-      if (user) {
+      if (user && safeNext !== "/reset-password") {
         const phone = typeof user.user_metadata?.phone === "string" ? user.user_metadata.phone : ""
         const firstName = typeof user.user_metadata?.first_name === "string" ? user.user_metadata.first_name : ""
         const lastName = typeof user.user_metadata?.last_name === "string" ? user.user_metadata.last_name : ""

@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { mutate } from "swr";
 
-type Mode = "signin" | "signup";
+type Mode = "signin" | "signup" | "forgot";
 
 function safeNextPath(value: string | null) {
   return value?.startsWith("/") && !value.startsWith("//") ? value : null;
@@ -20,12 +20,12 @@ function isAdminPath(path: string) {
   return path === "/admin" || path.startsWith("/admin/");
 }
 
-function getSignupRedirectUrl() {
+function getAuthRedirectUrl(nextPath: string) {
   const redirectUrl = new URL(
     process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL ?? "/auth/callback",
     window.location.origin,
   );
-  redirectUrl.searchParams.set("next", "/shop");
+  redirectUrl.searchParams.set("next", nextPath);
   return redirectUrl.toString();
 }
 
@@ -77,7 +77,7 @@ export default function AuthForm({ initialNext }: { initialNext?: string }) {
           email: email.trim(),
           password,
           options: {
-            emailRedirectTo: getSignupRedirectUrl(),
+            emailRedirectTo: getAuthRedirectUrl("/shop"),
             data: {
               first_name: firstName.trim(),
               last_name: lastName.trim(),
@@ -100,6 +100,12 @@ export default function AuthForm({ initialNext }: { initialNext?: string }) {
         }
         setMessage("Your account is created. Check your email to confirm your address, then start shopping.");
         setMode("signin");
+      } else if (mode === "forgot") {
+        const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+          redirectTo: getAuthRedirectUrl("/reset-password"),
+        });
+        if (resetError) throw resetError;
+        setMessage("If an account exists for that email, reset instructions are on the way. Check your inbox.");
       } else {
         const { error: signInError } = await supabase.auth.signInWithPassword({
           email: email.trim(),
@@ -123,7 +129,15 @@ export default function AuthForm({ initialNext }: { initialNext?: string }) {
         router.refresh();
       }
     } catch (caught) {
-      setError(authMessage(caught instanceof Error ? caught.message : ""));
+      const caughtMessage = caught instanceof Error ? caught.message : "";
+      if (mode === "forgot") {
+        const normalized = caughtMessage.toLowerCase();
+        setError(normalized.includes("rate limit") || normalized.includes("too many requests")
+          ? "Too many attempts. Please wait a little and try again."
+          : "We couldn’t send reset instructions right now. Please try again.");
+      } else {
+        setError(authMessage(caughtMessage));
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -141,16 +155,18 @@ export default function AuthForm({ initialNext }: { initialNext?: string }) {
         </div>
 
         <section className="border border-neutral-200 bg-white p-5 shadow-[0_20px_60px_-38px_rgba(0,0,0,0.24)] sm:p-8" aria-labelledby="auth-heading">
-          <h1 id="auth-heading" className="text-xl font-semibold tracking-tight">Account access</h1>
-          <p className="mt-1 text-sm text-neutral-600">Sign in or create an account to continue.</p>
+          <h1 id="auth-heading" className="text-xl font-semibold tracking-tight">{mode === "forgot" ? "Reset your password" : "Account access"}</h1>
+          <p className="mt-1 text-sm text-neutral-600">{mode === "forgot" ? "Enter your email and we’ll send a reset link." : "Sign in or create an account to continue."}</p>
 
-          <div className="mt-6 grid grid-cols-2 border border-neutral-200 p-1" role="tablist" aria-label="Account action">
-            {(["signin", "signup"] as const).map((item) => (
-              <button key={item} type="button" role="tab" aria-selected={mode === item} onClick={() => { setMode(item); setError(""); setMessage(""); }} className={`px-3 py-2.5 text-sm font-medium transition-colors ${mode === item ? "bg-[#0A0A0A] text-white" : "text-neutral-600 hover:bg-neutral-50"}`}>
-                {item === "signin" ? "Sign In" : "Sign Up"}
-              </button>
-            ))}
-          </div>
+          {mode !== "forgot" && (
+            <div className="mt-6 grid grid-cols-2 border border-neutral-200 p-1" role="tablist" aria-label="Account action">
+              {(["signin", "signup"] as const).map((item) => (
+                <button key={item} type="button" role="tab" aria-selected={mode === item} onClick={() => { setMode(item); setError(""); setMessage(""); }} className={`px-3 py-2.5 text-sm font-medium transition-colors ${mode === item ? "bg-[#0A0A0A] text-white" : "text-neutral-600 hover:bg-neutral-50"}`}>
+                  {item === "signin" ? "Sign In" : "Sign Up"}
+                </button>
+              ))}
+            </div>
+          )}
 
           {error && <p className="mt-5 border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-800" role="alert">{error}</p>}
           {message && <p className="mt-5 border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-sm text-neutral-700" role="status">{message}</p>}
@@ -164,16 +180,26 @@ export default function AuthForm({ initialNext }: { initialNext?: string }) {
               </div>
             )}
             <label className="flex flex-col gap-1.5 text-sm font-medium">Email address<Input type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} required maxLength={254} className="h-11 rounded-none border-neutral-300 text-sm" /></label>
-            <label className="flex flex-col gap-1.5 text-sm font-medium">Password
-              <span className="relative">
-                <Input type={showPassword ? "text" : "password"} autoComplete={mode === "signup" ? "new-password" : "current-password"} value={password} onChange={(event) => setPassword(event.target.value)} required minLength={mode === "signup" ? 8 : undefined} maxLength={128} className="h-11 rounded-none border-neutral-300 pr-11 text-sm" />
-                <button type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? "Hide password" : "Show password"} className="absolute inset-y-0 right-0 inline-flex w-11 items-center justify-center text-neutral-500 hover:text-[#0A0A0A]">{showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}</button>
-              </span>
-            </label>
+            {mode !== "forgot" && (
+              <label className="flex flex-col gap-1.5 text-sm font-medium">Password
+                <span className="relative">
+                  <Input type={showPassword ? "text" : "password"} autoComplete={mode === "signup" ? "new-password" : "current-password"} value={password} onChange={(event) => setPassword(event.target.value)} required minLength={mode === "signup" ? 8 : undefined} maxLength={128} className="h-11 rounded-none border-neutral-300 pr-11 text-sm" />
+                  <button type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? "Hide password" : "Show password"} className="absolute inset-y-0 right-0 inline-flex w-11 items-center justify-center text-neutral-500 hover:text-[#0A0A0A]">{showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}</button>
+                </span>
+              </label>
+            )}
+            {mode === "signin" && (
+              <div className="flex justify-end">
+                <button type="button" onClick={() => { setMode("forgot"); setError(""); setMessage(""); }} className="text-sm font-medium text-neutral-600 underline underline-offset-4 hover:text-[#0A0A0A]">Forgot password?</button>
+              </div>
+            )}
             <Button type="submit" disabled={isSubmitting} className="mt-1 h-11 w-full rounded-none bg-[#0A0A0A] text-sm font-semibold text-white hover:bg-neutral-800">
-              {isSubmitting ? "Please wait…" : mode === "signin" ? "Sign In" : "Create Account"}
+              {isSubmitting ? "Please wait…" : mode === "signin" ? "Sign In" : mode === "signup" ? "Create Account" : "Send reset link"}
               {!isSubmitting && <ArrowRight data-icon="inline-end" aria-hidden="true" />}
             </Button>
+            {mode === "forgot" && (
+              <button type="button" onClick={() => { setMode("signin"); setError(""); setMessage(""); }} className="self-center text-sm font-medium text-neutral-600 underline underline-offset-4 hover:text-[#0A0A0A]">Back to sign in</button>
+            )}
           </form>
         </section>
         <p className="mt-5 text-center text-xs leading-5 text-neutral-500">By continuing, you agree to use your account for NOIR Urban Wear services.</p>
