@@ -199,7 +199,6 @@ body {
 
 .noir-home { background: #FFFFFF; color: #0A0A0A; overflow: hidden; }
 .section-shell { width: min(1440px, calc(100% - 64px)); margin-inline: auto; }
-.noir-demo-bar { min-height: 30px; padding: 7px 16px; display: flex; align-items: center; justify-content: center; gap: 12px; background: #0A0A0A; color: #FFFFFF; font-size: 9px; line-height: 1.4; font-weight: 600; letter-spacing: .12em; text-align: center; }
 .noir-hero { display: grid; grid-template-columns: minmax(0, .94fr) minmax(0, 1.06fr); min-height: clamp(660px, calc(100svh - 108px), 790px); background: #FFFFFF; color: #111; overflow: hidden; }
 .noir-hero-copy-panel { display: flex; flex-direction: column; justify-content: space-between; padding: clamp(46px, 6.2vw, 88px) clamp(26px, 3.4vw, 58px) 34px clamp(34px, 4.8vw, 82px); }
 .noir-hero-copy-inner { max-width: 690px; margin-block: 0; }
@@ -316,7 +315,6 @@ body {
 
 @media (max-width: 768px) {
   .section-shell { width: calc(100% - 36px); }
-  .noir-demo-bar { padding-inline: 12px; font-size: 8px; letter-spacing: .08em; }
   .noir-hero { grid-template-columns: minmax(0, .94fr) minmax(0, 1.06fr); min-height: 620px; }
   .noir-hero-copy-panel { padding: 42px 22px 24px 28px; }
   .noir-hero-kicker { gap: 10px; margin-bottom: 24px; font-size: 9px; }
@@ -401,7 +399,6 @@ body {
   .noir-category-card { min-height: 190px; }
   .noir-category-title h3 { font-size: 24px; }
   .noir-category-title p { max-width: 125px; }
-  .noir-demo-bar { font-size: 7px; }
 }
 
 /* NOIR Urban Wear — editorial shop experience */
@@ -519,7 +516,6 @@ body {
 .noir-detail-price-row del { color: #525252; font-size: 13px; }
 .noir-sale-note { padding: 5px 7px; background: #F5F5F5; color: #404040; font-size: 7px; font-weight: 800; letter-spacing: .12em; }
 .noir-product-description { max-width: 510px; margin: 20px 0 25px; color: #404040; font-size: 13px; line-height: 1.85; }
-.noir-demo-options-note { padding: 11px 12px; border: 1px solid #E5E5E5; color: #404040; font-size: 8px; font-weight: 800; letter-spacing: .12em; }
 .noir-option-block { padding: 22px 0; border-bottom: 1px solid #E5E5E5; }
 .noir-option-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
 .noir-option-heading label { color: #0A0A0A; font-size: 9px; font-weight: 900; letter-spacing: .13em; }
@@ -766,9 +762,9 @@ body {
 .noir-confirmation-mark { border-color: #aeb9a8; color: #596b51; }
 .noir-confirmation-shell h1 { font-size: clamp(46px,7vw,76px); }
 .noir-confirmation-lead { margin: 17px 0 23px; color: #404040; font-size: 12px; }
-.noir-demo-alert { display: flex; width: 100%; flex-direction: column; gap: 6px; padding: 15px 18px; border: 1px solid #d9d1bc; background: #FFFFFF; text-align: left; }
-.noir-demo-alert strong { color: #514936; font-size: 9px; }
-.noir-demo-alert span { color: #77705e; font-size: 9px; line-height: 1.6; }
+.noir-order-status { display: flex; width: 100%; flex-direction: column; gap: 6px; padding: 15px 18px; border: 1px solid #d9d1bc; background: #FFFFFF; text-align: left; }
+.noir-order-status strong { color: #514936; font-size: 9px; }
+.noir-order-status span { color: #77705e; font-size: 9px; line-height: 1.6; }
 .noir-confirmation-card { width: 100%; margin-top: 20px; padding: 22px; border: 1px solid #e5e2db; background: #fff; text-align: left; }
 .noir-confirmation-topline { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 17px; border-bottom: 1px solid #E5E5E5; }
 .noir-confirmation-topline span,.noir-confirmation-grid span,.noir-confirmation-items > p { color: #99948b; font-size: 7px; font-weight: 800; letter-spacing: .13em; }
@@ -793,7 +789,6 @@ body {
 .noir-confirmation-note span { color: #99948b; font-size: 7px; font-weight: 800; letter-spacing: .13em; }
 .noir-confirmation-note strong { color: #55514b; font-size: 9px; font-weight: 600; line-height: 1.6; }
 
-body:has(.noir-home) .noir-demo-bar { display: none; }
 .noir-home-header {
   background: transparent !important;
   border: 0 !important;

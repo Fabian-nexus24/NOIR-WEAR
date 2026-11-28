@@ -64,7 +64,7 @@ export default function AdminProductsPanel({ products, onProductsChange }: Props
   };
 
   const deleteProduct = (product: Product) => {
-    const shouldDelete = window.confirm(`Delete “${product.name}” from this browser's catalogue?`);
+    const shouldDelete = window.confirm(`Delete “${product.name}” from the catalogue?`);
     if (shouldDelete) onProductsChange(products.filter((item) => item.id !== product.id));
   };
 
@@ -192,7 +192,7 @@ export default function AdminProductsPanel({ products, onProductsChange }: Props
           </table>
         </div>
       </div>
-      <p className="text-sm text-neutral-500">Changes are saved in this browser only. Connect a secure shared database before using these controls for live inventory.</p>
+      <p className="text-sm text-neutral-500">Product changes are saved to the NOIR catalogue.</p>
 
       <ProductFormDialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)} onAdd={addProduct} />
     </section>

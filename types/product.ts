@@ -13,4 +13,5 @@ export interface Product {
   isSoldOut?: boolean;
   sizes?: string[];
   inStock?: boolean;
+  isActive?: boolean;
 }

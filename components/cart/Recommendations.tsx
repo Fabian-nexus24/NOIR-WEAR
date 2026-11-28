@@ -1,14 +1,13 @@
 import ProductCard from "@/components/home/ProductCard";
 import { Button } from "@/components/ui/button";
-import rawProducts from "@/data/products.json";
-import { Product } from "@/types/product";
+import { useProducts } from "@/lib/use-products";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-const products = rawProducts as Product[];
-
 export default function Recommendations() {
+  const { products } = useProducts();
   const trending = products.slice(0, 4);
+  if (!trending.length) return null;
 
   return (
     <div className="mt-16 pt-8 border-t border-border/70">

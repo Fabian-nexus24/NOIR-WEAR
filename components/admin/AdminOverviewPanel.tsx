@@ -32,7 +32,7 @@ export default function AdminOverviewPanel({ products, orders, onNavigate }: Pro
           <h2 id="overview-heading" className="text-xl font-semibold tracking-tight sm:text-2xl">
             Store overview
           </h2>
-          <p className="mt-1 text-sm text-neutral-600">A quick snapshot of the NOIR catalogue and sample orders.</p>
+          <p className="mt-1 text-sm text-neutral-600">A quick snapshot of the NOIR catalogue and recent orders.</p>
         </div>
         <Button
           type="button"
@@ -62,7 +62,7 @@ export default function AdminOverviewPanel({ products, orders, onNavigate }: Pro
         <CardHeader className="flex-row items-center justify-between gap-3 border-b border-neutral-200 p-4 sm:p-5">
           <div>
             <CardTitle className="text-base font-semibold">Recent orders</CardTitle>
-            <p className="mt-1 text-sm text-neutral-500">Sample records for the order workflow.</p>
+            <p className="mt-1 text-sm text-neutral-500">The latest orders placed with NOIR.</p>
           </div>
           <Button
             type="button"

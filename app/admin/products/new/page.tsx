@@ -4,6 +4,9 @@ import CategorySelector from "@/components/admin/CategorySelector";
 import { Button } from "@/components/ui/button";
 import { formatKES } from "@/lib/utils";
 import { Product } from "@/types/product";
+import { createClient } from "@/lib/supabase/client";
+import { uploadProductImage } from "@/lib/product-images";
+import { mapProduct, productToRow, type ProductRow } from "@/lib/product-data";
 import {
   ArrowLeft,
   Check,
@@ -20,42 +23,6 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 const BASE_CATEGORIES = ["Shoes", "T-Shirts", "Hoodies", "Accessories"];
-
-// Compress device images to lightweight Base64 for localStorage persistence
-const processImageFile = (file: File): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (event) => {
-      const img = new window.Image();
-      img.src = event.target?.result as string;
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        const maxDim = 1200;
-        let width = img.width;
-        let height = img.height;
-
-        if (width > maxDim || height > maxDim) {
-          if (width > height) {
-            height = Math.round((height * maxDim) / width);
-            width = maxDim;
-          } else {
-            width = Math.round((width * maxDim) / height);
-            height = maxDim;
-          }
-        }
-
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext("2d");
-        ctx?.drawImage(img, 0, 0, width, height);
-        resolve(canvas.toDataURL("image/jpeg", 0.85));
-      };
-      img.onerror = () => resolve(event.target?.result as string);
-    };
-    reader.onerror = (err) => reject(err);
-  });
-};
 
 export default function AdminNewProductPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -84,23 +51,6 @@ export default function AdminNewProductPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [publishedProduct, setPublishedProduct] = useState<Product | null>(null);
-
-  // Load saved custom categories
-  useEffect(() => {
-    try {
-      const storedCats = localStorage.getItem("bloom_custom_categories");
-      if (storedCats) {
-        const custom: string[] = JSON.parse(storedCats);
-        const merged = Array.from(new Set([...BASE_CATEGORIES, ...custom]));
-        setCategories(merged);
-        setCategory((prev) =>
-          merged.length > 0 && !merged.includes(prev) ? merged[0] : prev
-        );
-      }
-    } catch {
-      // ignore
-    }
-  }, []);
 
   // Prevent accidental loss of unsaved product details
   useEffect(() => {
@@ -133,16 +83,6 @@ export default function AdminNewProductPage() {
     setCategories(updated);
     setCategory(trimmed);
 
-    try {
-      const storedCustom: string[] = JSON.parse(
-        localStorage.getItem("bloom_custom_categories") || "[]"
-      );
-      storedCustom.push(trimmed);
-      localStorage.setItem("bloom_custom_categories", JSON.stringify(storedCustom));
-      window.dispatchEvent(new Event("storage"));
-    } catch {
-      // ignore
-    }
   };
 
   const openFilePicker = () => {
@@ -153,13 +93,23 @@ export default function AdminNewProductPage() {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
+    const selectedFiles = Array.from(files);
+    if (selectedImages.length + selectedFiles.length > 6) {
+      setError("A product can have up to six images.");
+      e.target.value = "";
+      return;
+    }
+    if (selectedFiles.some((file) => !file.type.startsWith("image/") || file.size > 8 * 1024 * 1024)) {
+      setError("Choose image files smaller than 8 MB each.");
+      e.target.value = "";
+      return;
+    }
+
     setIsProcessingImages(true);
     setError(null);
 
     try {
-      const processed = await Promise.all(
-        Array.from(files).map((file) => processImageFile(file))
-      );
+      const processed = await Promise.all(selectedFiles.map(uploadProductImage));
       setSelectedImages((prev) => {
         const next = [...prev, ...processed];
         // Focus the newly added first image on desktop if we were on the '+' slide
@@ -243,47 +193,43 @@ export default function AdminNewProductPage() {
     }
 
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 350));
-
     const newProduct: Product = {
-      id: Date.now(),
+      id: 0,
       name: title.trim(),
       category: category.trim(),
       price: Math.round(numPrice),
       originalPrice: numOriginalPrice,
       image: selectedImages[0],
       images: selectedImages,
-      description:
-        description.trim() ||
-        `Premium ${category.toLowerCase()} designed for daily comfort and timeless style.`,
-      rating: 5.0,
-      reviewsCount: 1,
+      description: description.trim(),
+      rating: 0,
+      reviewsCount: 0,
+      inStock: true,
     };
 
     try {
-      const stored = localStorage.getItem("bloom_custom_products");
-      const list: Product[] = stored ? JSON.parse(stored) : [];
-      list.unshift(newProduct);
-      localStorage.setItem("bloom_custom_products", JSON.stringify(list));
-      window.dispatchEvent(new Event("storage"));
+      const supabase = createClient();
+      const { data, error: insertError } = await supabase
+        .from("products")
+        .insert(productToRow(newProduct))
+        .select("id,name,description,category,price_kes,original_price_kes,image_url,images,badge,rating,reviews_count,sizes,stock_quantity,in_stock,is_active")
+        .single();
+      if (insertError) throw insertError;
+      const savedProduct = mapProduct(data as ProductRow);
+      setPublishedProduct(savedProduct);
+      setTitle("");
+      setPrice("");
+      setOriginalPrice("");
+      setDescription("");
+      setSelectedImages([]);
+      setDesktopSlideIndex(0);
+      setMobileSlideIndex(0);
+      setMobileStep(1);
     } catch {
+      setError("Could not publish this product. Check that the image bucket and admin product permissions are available.");
+    } finally {
       setIsSubmitting(false);
-      setError("Storage limit reached. Try using fewer or smaller images.");
-      return;
     }
-
-    setIsSubmitting(false);
-    setPublishedProduct(newProduct);
-
-    // Reset form
-    setTitle("");
-    setPrice("");
-    setOriginalPrice("");
-    setDescription("");
-    setSelectedImages([]);
-    setDesktopSlideIndex(0);
-    setMobileSlideIndex(0);
-    setMobileStep(1);
   };
 
   const handleStartAnother = () => {

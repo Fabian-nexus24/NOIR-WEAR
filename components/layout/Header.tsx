@@ -13,35 +13,10 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState, useSyncExternalStore } from "react";
+import { useState } from "react";
 import { Button } from "../ui/button";
-
-const ADMIN_SESSION_KEY = "bloom_admin_session";
-const ADMIN_SESSION_EVENT = "noir-admin-session-change";
-
-function subscribeToAdminSession(callback: () => void) {
-  window.addEventListener("storage", callback);
-  window.addEventListener(ADMIN_SESSION_EVENT, callback);
-  return () => {
-    window.removeEventListener("storage", callback);
-    window.removeEventListener(ADMIN_SESSION_EVENT, callback);
-  };
-}
-
-function getAdminSessionSnapshot() {
-  try {
-    const session = window.localStorage.getItem(ADMIN_SESSION_KEY);
-    if (!session) return false;
-    JSON.parse(session);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-function notifyAdminSessionChanged() {
-  window.dispatchEvent(new Event(ADMIN_SESSION_EVENT));
-}
+import { useNoirSession } from "@/lib/use-noir-session";
+import { createClient } from "@/lib/supabase/client";
 
 export default function Header() {
   const { cart } = useCart();
@@ -52,11 +27,8 @@ export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const [isAdminAuthOpen, setIsAdminAuthOpen] = useState(false);
-  const isAdminLoggedIn = useSyncExternalStore(
-    subscribeToAdminSession,
-    getAdminSessionSnapshot,
-    () => false,
-  );
+  const { session, refresh: refreshSession } = useNoirSession();
+  const isAdminLoggedIn = session?.isAdmin === true;
 
   const pathname = usePathname();
   const router = useRouter();
@@ -64,25 +36,11 @@ export default function Header() {
   const isAdminArea = pathname === "/admin" || pathname?.startsWith("/admin/");
   const isProductCreatePage = pathname === "/admin/products/new";
 
-  const handleAdminLogin = (email: string) => {
-    try {
-      localStorage.setItem(
-        ADMIN_SESSION_KEY,
-        JSON.stringify({ email, timestamp: Date.now() })
-      );
-      notifyAdminSessionChanged();
-    } catch {
-      // ignore
-    }
-  };
-
-  const handleAdminLogout = () => {
-    try {
-      localStorage.removeItem(ADMIN_SESSION_KEY);
-      notifyAdminSessionChanged();
-    } catch {
-      // ignore
-    }
+  const handleAdminLogout = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    await refreshSession();
+    router.refresh();
   };
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -197,6 +155,11 @@ export default function Header() {
                   View Storefront
                 </Link>
               )}
+              {isAdminArea && isAdminLoggedIn && (
+                <button type="button" onClick={handleAdminLogout} className="whitespace-nowrap px-2 py-2 text-sm font-medium text-neutral-600 transition-colors hover:text-[#0A0A0A]">
+                  Sign out
+                </button>
+              )}
 
               {/* Search Toggle */}
               {!isAdminArea && (
@@ -217,13 +180,13 @@ export default function Header() {
               )}
 
               {!isAdminArea && (
-                isAdminLoggedIn ? (
+                session ? (
                   <Link
-                    href="/admin"
+                    href={isAdminLoggedIn ? "/admin" : "/account"}
                     className="inline-flex size-10 items-center justify-center rounded-full text-[#111111] transition-colors hover:bg-black/5"
-                    aria-label="Open admin account"
+                    aria-label={isAdminLoggedIn ? "Open admin dashboard" : "Open customer account"}
                   >
-                    <UserRound className="h-5 w-5" />
+                    <UserRound aria-hidden="true" className="h-5 w-5" />
                   </Link>
                 ) : (
                   <button
@@ -232,7 +195,7 @@ export default function Header() {
                     className="inline-flex size-10 items-center justify-center rounded-full text-[#111111] transition-colors hover:bg-black/5"
                     aria-label="Open account access"
                   >
-                    <UserRound className="h-5 w-5" />
+                    <UserRound aria-hidden="true" className="h-5 w-5" />
                   </button>
                 )
               )}
@@ -380,7 +343,6 @@ export default function Header() {
       <AdminAuthModal
         isOpen={isAdminAuthOpen}
         onClose={() => setIsAdminAuthOpen(false)}
-        onLoginSuccess={handleAdminLogin}
       />
     </>
   );

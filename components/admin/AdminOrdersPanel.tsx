@@ -30,7 +30,7 @@ export default function AdminOrdersPanel({ orders, whatsappNumber, onStatusChang
     <section aria-labelledby="orders-heading" className="flex flex-col gap-6">
       <div>
         <h2 id="orders-heading" className="text-xl font-semibold tracking-tight sm:text-2xl">Orders</h2>
-        <p className="mt-1 text-sm text-neutral-600">Review sample records, update fulfillment status, or open a WhatsApp message.</p>
+        <p className="mt-1 text-sm text-neutral-600">Review customer orders, update fulfillment status, or open a WhatsApp message.</p>
       </div>
 
       <div className="flex gap-2 overflow-x-auto pb-1" aria-label="Filter orders by status">
@@ -62,7 +62,7 @@ export default function AdminOrdersPanel({ orders, whatsappNumber, onStatusChang
         </div>
       ) : (
         <div className="border border-neutral-200 px-6 py-12 text-center text-sm text-neutral-600">
-          No sample orders match this status.
+          No orders match this status.
         </div>
       )}
     </section>
